@@ -1,14 +1,16 @@
-# Nome do Projeto
+<h1 align="center">
+  CEP API 
+</h1>
 
 ## Descrição
-Breve descrição do que o projeto faz e qual problema ele visa resolver.
+Breve descrição do que o projeto faz e qual problema ele visa resolver.//TODO
 
 ## Motivação
-Explique por que este projeto foi iniciado, qual necessidade ele atende.
+Explique por que este projeto foi iniciado, qual necessidade ele atende.//TODO
 
 ## Arquitetura
 
-Esse projeto é uma implementaçao de clean architecture, tentando ao máximo seguir as boas práticas de desenvolvimento de APIs.
+Esse projeto é uma implementaçao de clean architecture, tentando ao máximo seguir as boas práticas de desenvolvimento de APIs. 
 
 A arquitura usada levou em consideração os seguintes componentes (ou camadas):
 
