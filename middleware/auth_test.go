@@ -14,7 +14,7 @@ func TestAuthJWT(t *testing.T) {
 
 	t.Run("No Authorization Header", func(t *testing.T) {
 		router := gin.New()
-		router.Use(AuthJWT("3dc3abf6a7ce3a3aa681a7873e33c9dc9f9d30159898cf623bff50d6814d8075"))
+		router.Use(AuthJWT())
 		router.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -29,7 +29,7 @@ func TestAuthJWT(t *testing.T) {
 
 	t.Run("Invalid Token Format", func(t *testing.T) {
 		router := gin.New()
-		router.Use(AuthJWT("3dc3abf6a7ce3a3aa681a7873e33c9dc9f9d30159898cf623bff50d6814d8075"))
+		router.Use(AuthJWT())
 		router.GET("/test", func(c *gin.Context) {
 			c.Status(http.StatusOK)
 		})
@@ -45,7 +45,7 @@ func TestAuthJWT(t *testing.T) {
 
 	t.Run("Valid Token", func(t *testing.T) {
 		router := gin.New()
-		router.Use(AuthJWT("3dc3abf6a7ce3a3aa681a7873e33c9dc9f9d30159898cf623bff50d6814d8075"))
+		router.Use(AuthJWT())
 		router.GET("/end-point-privado", func(c *gin.Context) {
 			c.Status(200)
 		})

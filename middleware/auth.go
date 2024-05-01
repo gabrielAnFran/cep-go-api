@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -8,7 +9,7 @@ import (
 )
 
 // AuthJWT é o Middleware responsável por validar a autenticidade de uma requisição através do seu token JWT.
-func AuthJWT(jwtSecret string) gin.HandlerFunc {
+func AuthJWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		headerAuthorization := c.GetHeader("Authorization")
@@ -26,7 +27,7 @@ func AuthJWT(jwtSecret string) gin.HandlerFunc {
 		tokenString := bearerToken[1]
 
 		_, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			return []byte(jwtSecret), nil
+			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 
 		if err != nil {
