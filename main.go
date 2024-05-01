@@ -40,52 +40,51 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
-
+	// Carrega variáveis de ambiente
 	godotenv.Load()
 
-	// Initialize sentry
+	// Inicializa o Sentry
 	if err := sentry.Init(sentry.ClientOptions{
-		Dsn:           os.Getenv("SENTRY_DSN"),
-		EnableTracing: true,
-		// Set TracesSampleRate to 1.0 to capture 100%
-		// of transactions for performance monitoring.
-		// We recommend adjusting this value in production,
-		TracesSampleRate: 1.0,
+		Dsn:              os.Getenv("SENTRY_DSN"),
+		EnableTracing:    true,
+		TracesSampleRate: 1.0, // Capture 100% of transactions for monitoring
 	}); err != nil {
 		fmt.Printf("Sentry initialization failed: %v\n", err)
 	}
 
-	// Initialize Gin router
+	// Inicializa o gin router
 	router := gin.Default()
-	// Once it's done, you can attach the handler as one of your middleware
-	router.Use(sentrygin.New(sentrygin.Options{}))
-	router.Use(cors.Default())
+	router.Use(sentrygin.New(sentrygin.Options{})) // Anexa o middleware do Sentry ao gin
+	router.Use(cors.Default())                     // Viabiliza requisições de diferentes origens
 
-	// Grupo de rotas que necessitam de autenticação
+	// Rotas que necessitam de autenticação
 	api := router.Group("/")
 	api.Use(middlewares.AuthJWT())
 
-	// Grupo de rotas que não necessitam de autenticação
+	// rotas que nao necessitam de autenticação
 	auth := router.Group("/")
 
+	// Inicializa o serviço de autenticação e o handler
 	jwtService := usecase.ServiceAuth{}
 	gerarTokenHandler := token_controller.GerarTokenHandler{GerarTokenInterface: jwtService}
 	auth.POST("/gerar-token", gerarTokenHandler.GerarTokenJWT)
 
+	// Inicializa o repositório de CEP e o handler
 	repository := entity.CEPRepositoryInterface(database.NewCEPRepository())
 	webCEPHandler := cep_controller.CEPWebHandler{CEPRepository: repository}
 	api.GET("/cep/:cep", webCEPHandler.BuscarCEP)
 
+	// Configuração do Swagger
 	docs.SwaggerInfo.Title = "API de Consulta de CEP"
 	docs.SwaggerInfo.Description = "API de consulta de CEP utilizando Clean Architecture e Golang"
 	docs.SwaggerInfo.Version = "1.0.0"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
+	// Serve Swagger UI
 	router.GET("/swagger/", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	// Inicializa o servidor
 	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	fmt.Println("Servidor inicializado na porta:", os.Getenv("PORT"))
-
 	router.Run(port)
-
 }
