@@ -1,14 +1,12 @@
 package usecase
 
 import (
-	"cep-gin-clean-arch/configs"
 	"crypto/rand"
-	"errors"
 	"fmt"
+	"os"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type ServiceAuth struct{}
@@ -30,13 +28,8 @@ func (ServiceAuth) GenerateTokenJWT() (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	configs, err := configs.LoadConfig("../../.")
-	if err != nil {
-		return "", errors.New("Erro ao carregar variáveis de ambiente")
-	}
 
-	spew.Dump(configs)
-	tokenString, err := token.SignedString([]byte(configs.JWTSecret))
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return "", err
 	}
