@@ -84,7 +84,7 @@ func main() {
 	router.GET("/swagger/", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Inicializa o servidor
-	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
-	fmt.Println("Servidor inicializado na porta:", os.Getenv("PORT"))
+	port := fmt.Sprintf(":%s", os.Getenv("HTTP_PORT"))
+	fmt.Println("Servidor inicializado na porta:", os.Getenv("HTTP_PORT"))
 	router.Run(port)
 }
