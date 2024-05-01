@@ -23,7 +23,7 @@ func NewBuscarCEPUseCase(buscarCEPRepository entity.CEPRepositoryInterface) *Bus
 	}
 }
 
-func (b *BuscarCEPuseCase) Execute(input *string) (BuscarCepOutputDTO, error) {
+func (b *BuscarCEPuseCase) Execute(input *string) (BuscarCepOutputDTO, error) { //return BuscarCepOutputDTO{}, errors.New("Testinho")
 	cep := entity.NewCep(*input)
 	if err := cep.IsValidCep(*input); err != nil {
 		return BuscarCepOutputDTO{}, err
