@@ -1,7 +1,8 @@
-package controllers
+package token_controller
 
 import (
 	"cep-gin-clean-arch/internal/entity"
+	"cep-gin-clean-arch/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +25,7 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
 	token, err := h.GerarTokenInterface.GenerateTokenJWT()
 	if err != nil {
-		//util.GravarErroNoSentry(err, c)
+		utils.GravarErroNoSentry(err, c)
 		c.AbortWithStatusJSON(500, erroAoGerarToken)
 		return
 	}

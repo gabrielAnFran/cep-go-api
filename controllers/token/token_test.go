@@ -1,4 +1,4 @@
-package controllers
+package token_controller
 
 import (
 	"cep-gin-clean-arch/mocks"
