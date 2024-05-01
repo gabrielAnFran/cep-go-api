@@ -38,7 +38,7 @@ func TestAuthJWT(t *testing.T) {
 		req.Header.Add("Authorization", "Bearer")
 		resp := httptest.NewRecorder()
 		router.ServeHTTP(resp, req)
-
+		//a
 		assert.Equal(t, http.StatusUnauthorized, resp.Code)
 		assert.Contains(t, resp.Body.String(), "Token inválido")
 	})
