@@ -22,22 +22,19 @@ func main() {
 	// Initialize Gin router
 	router := gin.Default()
 
-	api := router.Group("/api")
+	api := router.Group("/")
 	api.Use(middlewares.AuthJWT(configs.JWTSecret))
+
+	auth := router.Group("/")
 
 	jwtService := usecase.ServiceAuth{}
 	gerarTokenHandler := controllers.GerarTokenHandler{GerarTokenInterface: jwtService}
-	router.GET("/gerar-token-jwt", gerarTokenHandler.GerarTokenJWT)
+	auth.POST("/gerar-token", gerarTokenHandler.GerarTokenJWT)
 
-	// Setup route
-
-	// Create repository and handler
 	repository := entity.CEPRepositoryInterface(database.NewCEPRepository())
 	webCEPHandler := controllers.CEPWebHandler{CEPRepository: repository}
+	api.GET("/cep/:cep", webCEPHandler.BuscarCEP)
 
-	router.GET("/cep/:cep", webCEPHandler.BuscarCEP)
-
-	// Start server
 	port := fmt.Sprintf(":%s", configs.HTTPPort)
 	fmt.Println("Servidor inicializado na porta:", configs.HTTPPort)
 	router.Run(port)

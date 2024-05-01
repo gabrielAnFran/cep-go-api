@@ -20,14 +20,6 @@ func NewGerarTokenHandler(gerarTokenRepository entity.GerarTokenInterface) *Gera
 	}
 }
 
-// @Tags Auth
-// @Summary Gerar um token JWT de testes
-// @Description Gera um token JWT de testes válido por 1 dia.
-// @Produce json
-// @Success 200 {object} viewmodels.Token
-// @Failure 400,500 {object} viewmodels.Error
-// @Router /gerar-token-jwt [get]
-
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
 	token, err := h.GerarTokenInterface.GenerateTokenJWT()
@@ -37,6 +29,8 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, token)
+	c.JSON(200, gin.H{
+		"token": token,
+	})
 
 }

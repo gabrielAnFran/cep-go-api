@@ -3,7 +3,6 @@ package controllers
 import (
 	"cep-gin-clean-arch/internal/entity"
 	"cep-gin-clean-arch/internal/usecase"
-	"errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,12 +23,14 @@ func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 	cep := entity.NewCep(cepParam)
 	err := cep.IsValidCep(cep.Cep)
 	if err != nil {
-		c.AbortWithStatusJSON(400, errors.New("erro"))
+		c.AbortWithStatusJSON(400, gin.H{
+			"error":         err.Error(),
+			"Cep informado": cep.Cep})
 		return
 	}
 
-	cebBuscar := usecase.NewBuscarCEPUseCase(h.CEPRepository)
-	res, err := cebBuscar.Execute(&cepParam)
+	cepBuscar := usecase.NewBuscarCEPUseCase(h.CEPRepository)
+	res, err := cepBuscar.Execute(&cepParam)
 	if err != nil {
 		c.AbortWithStatusJSON(400, err)
 		return

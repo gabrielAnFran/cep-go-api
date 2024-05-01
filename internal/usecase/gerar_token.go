@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -24,7 +25,7 @@ func (ServiceAuth) GenerateTokenJWT() (string, error) {
 		"jti": uuid,
 		"iat": now.Unix(),
 		"nbf": now.Unix(),
-		"exp": now.Add(time.Hour * 1).Unix(), // 1 dia
+		"exp": now.Add(time.Hour * 1).Unix(),
 		"sub": 1,
 	}
 
@@ -33,14 +34,14 @@ func (ServiceAuth) GenerateTokenJWT() (string, error) {
 	if err != nil {
 		return "", errors.New("Erro ao carregar variáveis de ambiente")
 	}
-	tokenString, err := token.SignedString([]byte(configs.HTTPPort))
+
+	spew.Dump(configs)
+	tokenString, err := token.SignedString([]byte(configs.JWTSecret))
 	if err != nil {
 		return "", err
 	}
 
-	// Mock de um token para retorno 
-
-	tokenString = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlfQ.nRBsUwQPNEV8tnU_qfc5xRt5PwfcSMYDw3sUFyKBAts"
+	// Mock de um token para retorno
 
 	return tokenString, nil
 }

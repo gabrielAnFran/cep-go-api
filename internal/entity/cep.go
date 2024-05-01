@@ -24,5 +24,9 @@ func (c *CEP) IsValidCep(cep string) error {
 		return errors.New("CEP inválido")
 	}
 
+	if cep == "00000000" {
+		return errors.New("CEP inválido")
+	}
+
 	return nil
 }

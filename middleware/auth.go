@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -31,7 +30,8 @@ func AuthJWT(jwtSecret string) gin.HandlerFunc {
 		})
 
 		if err != nil {
-			c.AbortWithStatusJSON(401, errors.New("Token inválido"))
+			println(err.Error())
+			c.AbortWithStatusJSON(401, gin.H{"error": "Token inválido"})
 			return
 		}
 
