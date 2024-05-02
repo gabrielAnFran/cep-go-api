@@ -1,6 +1,9 @@
 package entity
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 type CEP struct {
 	Cep string `json:"cep"`
@@ -18,6 +21,11 @@ func (c *CEP) IsValidCep(cep string) error {
 
 	if len(cep) == 0 {
 		return errors.New("CEP não pode ser vazio")
+	}
+
+	_, err := strconv.Atoi(cep)
+	if err != nil {
+		return errors.New("CEP deve conter apenas dígitos numéricos")
 	}
 
 	if len(cep) != 8 {
