@@ -1,11 +1,13 @@
 package entity
 
-import "cep-gin-clean-arch/models"
+import (
+	"cep-gin-clean-arch/models"
+)
 
 type CEPRepositoryInterface interface {
 	Buscar(string) (models.CEPResponse, error)
 }
 
 type GerarTokenInterface interface {
-	GenerateTokenJWT() (string, error)
+	GenerateTokenJWT(models.TokenLoginRequest) (string, error)
 }
