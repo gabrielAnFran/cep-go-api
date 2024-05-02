@@ -60,7 +60,7 @@ func main() {
 	auth := router.Group("/")
 
 	// Inicializa o serviço de autenticação e o handler
-	jwtService := usecase.ServiceAuth{}
+	jwtService := usecase.UsecaseAuth{}
 	gerarTokenHandler := token_controller.GerarTokenHandler{GerarTokenInterface: jwtService}
 	auth.POST("/gerar-token", gerarTokenHandler.GerarTokenJWT)
 
