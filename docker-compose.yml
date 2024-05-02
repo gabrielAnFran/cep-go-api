@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  cep-api:
+    image: cep-api
+    container_name: cep-api
+    ports:
+      - 8080:8080
+   
