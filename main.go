@@ -72,7 +72,7 @@ func main() {
 	api.GET("/health-check", healthcheck_controller.HealthCheck())
 
 	// Serve Swagger UI
-	router.GET("/swagger/", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Inicializa o servidor
 	port := fmt.Sprintf(":%s", os.Getenv("HTTP_PORT"))
