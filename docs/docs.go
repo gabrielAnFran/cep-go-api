@@ -88,7 +88,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.TokenLoginRequest"
                         }
                     },
                     "500": {
@@ -135,7 +135,7 @@ const docTemplate = `{
             "properties": {
                 "status": {
                     "type": "string",
-                    "example": "available"
+                    "example": "up"
                 }
             }
         },
@@ -159,20 +159,37 @@ const docTemplate = `{
                 }
             }
         },
+        "models.TokenLoginRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "email@email.com"
+                },
+                "senha": {
+                    "type": "string",
+                    "example": "qualquerumamenosabre123"
+                }
+            }
+        },
         "usecase.BuscarCepOutputDTO": {
             "type": "object",
             "properties": {
                 "bairro": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Inhaúma"
                 },
                 "cidade": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Rio de Janeiro"
                 },
                 "estado": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "RJ"
                 },
                 "rua": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Rua José dos Reis"
                 }
             }
         }

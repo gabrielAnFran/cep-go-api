@@ -5,6 +5,10 @@ type TokenErrorResponse struct {
 }
 
 type TokenLoginRequest struct {
-	Email string `json:"email"`
-	Senha string `json:"senha"`
+	Email string `json:"email" example:"email@email.com"`
+	Senha string `json:"senha" example:"qualquerumamenosabre123"`
+}
+
+type TokenLoginResponse struct {
+	Token string `json:"token" example:"eyJhbGcSSDSDiOiJIUzI1NiIsInRDSDF5cCI6DDSDADIkpXVCJ9SS.D.7Q6`
 }

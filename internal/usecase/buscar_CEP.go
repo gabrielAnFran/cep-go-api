@@ -7,10 +7,10 @@ import (
 )
 
 type BuscarCepOutputDTO struct {
-	Rua    string `json:"rua"`
-	Bairro string `json:"bairro"`
-	Cidade string `json:"cidade"`
-	Estado string `json:"estado"`
+	Rua    string `json:"rua"    example:"Rua José dos Reis"`
+	Bairro string `json:"bairro" example:"Inhaúma"`
+	Cidade string `json:"cidade" example:"Rio de Janeiro"`
+	Estado string `json:"estado" example:"RJ"`
 }
 
 type BuscarCEPuseCase struct {

@@ -26,7 +26,8 @@ func NewGerarTokenHandler(gerarTokenRepository entity.GerarTokenInterface) *Gera
 // @security 	 BasicAuth
 // @Success      200  {object}  string
 // @Router       /gerar-token [post]
-// @Success      500  {object}  models.TokenErrorResponse
+// @Failure      500  {object}  models.TokenErrorResponse
+// @Success      200 {object}   models.TokenLoginRequest
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
 	var req models.TokenLoginRequest
@@ -48,8 +49,9 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"token": token,
-	})
+	tokenResponse := models.TokenLoginResponse{
+		Token: token,
+	}
+	c.JSON(200, tokenResponse)
 
 }

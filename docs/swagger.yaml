@@ -3,7 +3,7 @@ definitions:
   HealthCheck:
     properties:
       status:
-        example: available
+        example: up
         type: string
     type: object
   models.ErrorResponse:
@@ -19,15 +19,28 @@ definitions:
         example: Ocorreu um erro ao gerar o token
         type: string
     type: object
+  models.TokenLoginRequest:
+    properties:
+      email:
+        example: email@email.com
+        type: string
+      senha:
+        example: qualquerumamenosabre123
+        type: string
+    type: object
   usecase.BuscarCepOutputDTO:
     properties:
       bairro:
+        example: Inhaúma
         type: string
       cidade:
+        example: Rio de Janeiro
         type: string
       estado:
+        example: RJ
         type: string
       rua:
+        example: Rua José dos Reis
         type: string
     type: object
 externalDocs:
@@ -87,7 +100,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/models.TokenLoginRequest'
         "500":
           description: Internal Server Error
           schema:
