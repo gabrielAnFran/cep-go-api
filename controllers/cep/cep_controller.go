@@ -27,7 +27,7 @@ func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface) *CEP
 // @Produce      json
 // @Param        cep   path      string  true  "CEP"
 // @Success      200  {object}  usecase.BuscarCepOutputDTO
-// @Success      400  {object}  models.ErrorResponse
+// @Success      400  {object}  models.CEPErrorResponse
 // @Router       /cep/{cep} [get]
 // @security 	 BasicAuth
 func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
@@ -37,7 +37,7 @@ func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 	err := cep.IsValidCep(cep.Cep)
 	if err != nil {
 		utils.GravarErroNoSentry(err, c)
-		errorResponse := models.ErrorResponse{
+		errorResponse := models.CEPErrorResponse{
 			Error:        err.Error(),
 			CepInformado: cep.Cep,
 		}
@@ -50,7 +50,7 @@ func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err.Error())
 		utils.GravarErroNoSentry(err, c)
-		errorResponse := models.ErrorResponse{
+		errorResponse := models.CEPErrorResponse{
 			Error:        err.Error(),
 			CepInformado: cep.Cep,
 		}

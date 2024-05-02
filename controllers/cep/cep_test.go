@@ -41,6 +41,28 @@ func TestBuscarCEPSucesso(t *testing.T) {
 
 }
 
+func TestBuscarCEPInvalido(t *testing.T) {
+	serviceCEP := new(mocks.CEPRepositoryInterface)
+
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
+	c.Params = gin.Params{{Key: "cep", Value: "00000000"}}
+
+	serviceCEP.On("Buscar", "00000000").Return(models.CEPErrorResponse{Error: "CEP inválido"}, nil)
+
+	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+
+	webCEPHandler.BuscarCEP(c)
+
+	responseBody := models.CEPErrorResponse{}
+
+	err := json.NewDecoder(response.Body).Decode(&responseBody)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, 400, response.Code)
+	assert.Equal(t, "CEP inválido", responseBody.Error)
+}
+
 func TestNewBuscarCEPHandler(t *testing.T) {
 	mockRepository := new(mocks.CEPRepositoryInterface)
 

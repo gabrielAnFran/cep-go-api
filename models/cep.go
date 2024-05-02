@@ -7,7 +7,7 @@ type CEPResponse struct {
 	Estado string `json:"estado" example:"Arnor"`
 }
 
-type ErrorResponse struct {
+type CEPErrorResponse struct {
 	Error        string `json:"error"`
 	CepInformado string `json:"cep"`
 }
