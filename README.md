@@ -27,7 +27,7 @@ A arquitura usada levou em consideração os seguintes componentes (ou camadas):
 
 ### Por que essa arquitetura?
 
-Essa arquitetura torna a ajustes ou novas implementações menos sofridas, onde as camadas se comunicam mas não estão presas umas as outras, tendo cada camada com uma própria resposabilidade.
+Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde as camadas se comunicam mas não estão "presas" umas as outras, tendo cada camada sua própria resposabilidade.
 
 ---
 
@@ -40,7 +40,7 @@ Essa arquitetura torna a ajustes ou novas implementações menos sofridas, onde 
 | **Swaggo**      | Ferramenta para Go que gera automaticamente documentação de API RESTful com Swagger. |
 | **Sentry**      | Serviço que ajuda a detectar, monitorar e corrigir falhas em tempo real em toda a stack da app. |
 | **Mockery**     | Ferramenta para gerar mocks para testes em Go, facilitando a criação de unit tests. |
-
+| **GitHub Actions**        | Ferramenta utilizada para rodar os testes quando um PR é submetido para a brandh `main`.  |
 ---
 
 ## Licença
