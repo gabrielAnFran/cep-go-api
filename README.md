@@ -3,12 +3,14 @@
 </h1>
 
 ## Descrição
-Breve descrição do que o projeto faz e qual problema ele visa resolver.//TODO
 
-## Motivação
-Explique por que este projeto foi iniciado, qual necessidade ele atende.//TODO
+Este projeto visa desenvolver uma API robusta para a consulta de endereços utilizando como entrada o Código de Endereçamento Postal (CEP) do usuário. A API deve ser capaz de retornar informações detalhadas como rua, bairro, cidade e estado, além de tratar situações onde o CEP pode estar incompleto ou ser inválido.
+
+---
 
 ## Arquitetura
+
+![clean arch](clean-arch.jpg)
 
 Esse projeto é uma implementaçao de clean architecture, tentando ao máximo seguir as boas práticas de desenvolvimento de APIs. 
 
@@ -24,22 +26,22 @@ A arquitura usada levou em consideração os seguintes componentes (ou camadas):
 | **Mocks**        | Utilizado para simular comportamentos de componentes externos durante testes ou desenvolvimento.  |
 
 ### Por que essa arquitetura?
-Justifique as escolhas arquiteturais, incluindo os benefícios de usar tal configuração. //TODO
+
+Essa arquitetura torna a ajustes ou novas implementações menos sofridas, onde as camadas se comunicam mas não estão presas umas as outras, tendo cada camada com uma própria resposabilidade.
+
+---
 
 ## Tecnologias Utilizadas
-Liste as tecnologias principais utilizadas no projeto e uma breve descrição de por que foram escolhidas. //TODO
 
-### Swagger
-Explique como o Swagger é utilizado para documentação da API e como isso beneficia o projeto. //TODO
+| Tecnologia | Descrição                                                                                   |
+|------------|---------------------------------------------------------------------------------------------|
+| **Go**        | Linguagem de programação compilada e de tipagem estática, projetada para simplicidade e eficiência. |
+| **Gin**         | Um framework web escrito em Go que é usado para construir APIs de alta performance com um mínimo de recursos. |
+| **Swaggo**      | Ferramenta para Go que gera automaticamente documentação de API RESTful com Swagger. |
+| **Sentry**      | Serviço que ajuda a detectar, monitorar e corrigir falhas em tempo real em toda a stack da app. |
+| **Mockery**     | Ferramenta para gerar mocks para testes em Go, facilitando a criação de unit tests. |
 
-### Sentry
-Descreva como o Sentry é integrado e utilizado para monitoramento de erros e performance. //TODO
-
-## Como Executar
-Instruções passo a passo de como configurar e executar o projeto localmente. //TODO
-
-## Contribuições
-Instruções para desenvolvedores que desejam contribuir para o projeto. //TODO
+---
 
 ## Licença
 
