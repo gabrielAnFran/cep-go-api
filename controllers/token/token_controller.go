@@ -29,7 +29,16 @@ func NewGerarTokenHandler(gerarTokenRepository entity.GerarTokenInterface) *Gera
 // @Success      500  {object}  models.TokenErrorResponse
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
-	token, err := h.GerarTokenInterface.GenerateTokenJWT()
+	var req models.TokenLoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.GravarErroNoSentry(err, c)
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	token, err := h.GerarTokenInterface.GenerateTokenJWT(req)
 	if err != nil {
 		utils.GravarErroNoSentry(err, c)
 		errToken := models.TokenErrorResponse{

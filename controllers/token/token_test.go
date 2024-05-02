@@ -1,9 +1,12 @@
 package token_controller
 
 import (
+	"cep-gin-clean-arch/internal/usecase"
 	"cep-gin-clean-arch/mocks"
 	"io"
+	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +19,11 @@ func TestBuscarTokenSucesso(t *testing.T) {
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 
-	tokenHandler := GerarTokenHandler{GerarTokenInterface: serviceToken}
+	// Simulate a POST request with request body {"email": "aa", "senha": "senha"}
+	c.Request, _ = http.NewRequest(http.MethodPost, "/", strings.NewReader(`{"email": "aa@bb.com", "senha": "senha"}`))
+
+	jwtService := usecase.UsecaseAuth{}
+	tokenHandler := GerarTokenHandler{GerarTokenInterface: jwtService}
 	serviceToken.On("GenerateTokenJWT").Return("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlfQ.nRBsUwQPNEV8tnU_qfc5xRt5PwfcSMYDw3sUFyKBAts", nil)
 	tokenHandler.GerarTokenJWT(c)
 
