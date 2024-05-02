@@ -10,6 +10,7 @@ import (
 	middlewares "cep-gin-clean-arch/middleware"
 	"fmt"
 	"os"
+	_"cep-gin-clean-arch/docs"
 
 	"github.com/getsentry/sentry-go"
 	sentrygin "github.com/getsentry/sentry-go/gin"
