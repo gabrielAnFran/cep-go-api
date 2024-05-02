@@ -54,7 +54,7 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "$ref": "#/definitions/models.CEPErrorResponse"
                         }
                     }
                 }
@@ -133,7 +133,7 @@
                 }
             }
         },
-        "models.ErrorResponse": {
+        "models.CEPErrorResponse": {
             "type": "object",
             "properties": {
                 "cep": {

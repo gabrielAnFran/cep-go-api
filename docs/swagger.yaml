@@ -6,7 +6,7 @@ definitions:
         example: up
         type: string
     type: object
-  models.ErrorResponse:
+  models.CEPErrorResponse:
     properties:
       cep:
         type: string
@@ -83,7 +83,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.ErrorResponse'
+            $ref: '#/definitions/models.CEPErrorResponse'
       security:
       - BasicAuth: []
       summary: Busca um CEP em um repositório

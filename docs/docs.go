@@ -60,7 +60,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
+                            "$ref": "#/definitions/models.CEPErrorResponse"
                         }
                     }
                 }
@@ -139,7 +139,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ErrorResponse": {
+        "models.CEPErrorResponse": {
             "type": "object",
             "properties": {
                 "cep": {
