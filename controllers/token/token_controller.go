@@ -4,6 +4,7 @@ import (
 	"cep-gin-clean-arch/internal/entity"
 	"cep-gin-clean-arch/models"
 	"cep-gin-clean-arch/utils"
+	"errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +18,10 @@ func NewGerarTokenHandler(gerarTokenRepository entity.GerarTokenInterface) *Gera
 		GerarTokenInterface: gerarTokenRepository,
 	}
 }
+
+const (
+	erroComDadosRequisicao = "Ocorreu um erro ao receber o corpo da requisição. Verifique se os campos foram informados corretamente."
+)
 
 // @Summary      Gerar um token JWT
 // @Description  Gera um token JWT para ser utilizado na requisicão de CEP
@@ -33,9 +38,19 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 	var req models.TokenLoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.GravarErroNoSentry(err, c)
-		c.JSON(400, gin.H{
-			"error": "Ocorreu um erro ao receber dados da requisição. Verifique se os campos estão corretos.",
-		})
+		errToken := models.TokenErrorResponse{
+			Error: erroComDadosRequisicao,
+		}
+		c.JSON(400, errToken)
+		return
+	}
+
+	if req.Email == "" || req.Senha == "" {
+		errToken := models.TokenErrorResponse{
+			Error: erroComDadosRequisicao,
+		}
+		utils.GravarErroNoSentry(errors.New(errToken.Error), c)
+		c.JSON(400, errToken)
 		return
 	}
 

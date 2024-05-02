@@ -3,6 +3,7 @@ package token_controller
 import (
 	"cep-gin-clean-arch/internal/usecase"
 	"cep-gin-clean-arch/mocks"
+	"cep-gin-clean-arch/models"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -13,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBuscarTokenSucesso(t *testing.T) {
+func TestBuscarTokenComBody(t *testing.T) {
 	serviceToken := new(mocks.GerarTokenInterface)
 
 	response := httptest.NewRecorder()
@@ -31,6 +32,46 @@ func TestBuscarTokenSucesso(t *testing.T) {
 	assert.Equal(t, nil, err)
 
 	assert.Equal(t, 200, response.Code)
+	assert.NotEmpty(t, responseData)
+}
+
+func TestBuscarTokenSemBody(t *testing.T) {
+	serviceToken := new(mocks.GerarTokenInterface)
+
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
+
+	c.Request, _ = http.NewRequest(http.MethodPost, "/", nil)
+
+	jwtService := usecase.UsecaseAuth{}
+	tokenHandler := GerarTokenHandler{GerarTokenInterface: jwtService}
+	serviceToken.On("GenerateTokenJWT").Return(models.TokenErrorResponse{Error: erroComDadosRequisicao})
+	tokenHandler.GerarTokenJWT(c)
+
+	responseData, err := io.ReadAll(response.Body)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, 400, response.Code)
+	assert.NotEmpty(t, responseData)
+}
+
+func TestBuscarTokenBodySemDados(t *testing.T) {
+	serviceToken := new(mocks.GerarTokenInterface)
+
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
+
+	c.Request, _ = http.NewRequest(http.MethodPost, "/", strings.NewReader(`{"email": "", "senha": ""}`))
+
+	jwtService := usecase.UsecaseAuth{}
+	tokenHandler := GerarTokenHandler{GerarTokenInterface: jwtService}
+	serviceToken.On("GenerateTokenJWT").Return(models.TokenErrorResponse{Error: erroComDadosRequisicao})
+	tokenHandler.GerarTokenJWT(c)
+
+	responseData, err := io.ReadAll(response.Body)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, 400, response.Code)
 	assert.NotEmpty(t, responseData)
 }
 
