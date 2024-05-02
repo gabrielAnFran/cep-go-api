@@ -56,7 +56,7 @@ func TestExecute(t *testing.T) {
 		input := &cep
 		result, err := useCase.Execute(input)
 		assert.NotNil(t, err)
-		assert.Equal(t, "CEP inválido", err.Error())
+		assert.Equal(t, "CEP deve conter apenas dígitos numéricos", err.Error())
 		assert.Equal(t, BuscarCepOutputDTO{}, result)
 	})
 }

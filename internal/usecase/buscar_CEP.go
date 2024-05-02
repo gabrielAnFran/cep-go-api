@@ -44,6 +44,6 @@ func (b *BuscarCEPuseCase) Execute(input *string) (BuscarCepOutputDTO, error) { 
 			return BuscarCepOutputDTO{Rua: cepResponse.Rua, Bairro: cepResponse.Bairro, Cidade: cepResponse.Cidade, Estado: cepResponse.Estado}, nil
 		}
 	}
-	return BuscarCepOutputDTO{}, errors.New("CEP inválido")
+	return BuscarCepOutputDTO{}, errors.New("CEP não encontrado")
 
 }
