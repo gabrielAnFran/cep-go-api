@@ -12,8 +12,7 @@ const docTemplate = `{
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
+            "email": "antunes.f.gabriel@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -23,7 +22,161 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {},
+    "paths": {
+        "/cep/{cep}": {
+            "get": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Busca um CEP em um repositório",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CEP"
+                ],
+                "summary": "Busca um CEP em um repositório",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "CEP",
+                        "name": "cep",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usecase.BuscarCepOutputDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gerar-token": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Gera um token JWT para ser utilizado na requisicão de CEP",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Gerar um token JWT",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.TokenErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/health-check": {
+            "get": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Verifica a saúde da API. Retornando se a mesma está no ar.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health Check"
+                ],
+                "summary": "Verifica a saúde da API.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HealthCheck"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "HealthCheck": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "available"
+                }
+            }
+        },
+        "models.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "cep": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TokenErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Ocorreu um erro ao gerar o token"
+                }
+            }
+        },
+        "usecase.BuscarCepOutputDTO": {
+            "type": "object",
+            "properties": {
+                "bairro": {
+                    "type": "string"
+                },
+                "cidade": {
+                    "type": "string"
+                },
+                "estado": {
+                    "type": "string"
+                },
+                "rua": {
+                    "type": "string"
+                }
+            }
+        }
+    },
     "securityDefinitions": {
         "BasicAuth": {
             "type": "basic"
@@ -41,8 +194,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "This is a sample server celler server.",
+	Title:            "Desafio CEP API",
+	Description:      "A API Desafio CEP fornece endpoints para buscar um CEP em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Com suporte a autenticação básica, a API oferece respostas em formato JSON e segue o padrão OpenAPI.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

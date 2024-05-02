@@ -2,8 +2,8 @@ package main
 
 import (
 	cep_controller "cep-gin-clean-arch/controllers/cep"
+	healthcheck_controller "cep-gin-clean-arch/controllers/healthCheck"
 	token_controller "cep-gin-clean-arch/controllers/token"
-	"cep-gin-clean-arch/docs"
 	"cep-gin-clean-arch/internal/entity"
 	"cep-gin-clean-arch/internal/infra/database"
 	"cep-gin-clean-arch/internal/usecase"
@@ -17,26 +17,21 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
-	swaggerFiles "github.com/swaggo/files"     // swagger embed files
-	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @version         1.0
-// @description     This is a sample server celler server.
+// @description     A API Desafio CEP fornece endpoints para buscar um CEP em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Com suporte a autenticação básica, a API oferece respostas em formato JSON e segue o padrão OpenAPI.
 // @termsOfService  http://swagger.io/terms/
-
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
-
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-
+// @title 		    Desafio CEP API
+// @contact.name    API Support
+// @contact.email   antunes.f.gabriel@gmail.com
+// @license.name    Apache 2.0
+// @license.url     http://www.apache.org/licenses/LICENSE-2.0.html
 // @host      localhost:8080
 // @BasePath  /api/v1
-
 // @securityDefinitions.basic  BasicAuth
-
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
@@ -73,12 +68,7 @@ func main() {
 	repository := entity.CEPRepositoryInterface(database.NewCEPRepository())
 	webCEPHandler := cep_controller.CEPWebHandler{CEPRepository: repository}
 	api.GET("/cep/:cep", webCEPHandler.BuscarCEP)
-
-	// Configuração do Swagger
-	docs.SwaggerInfo.Title = "API de Consulta de CEP"
-	docs.SwaggerInfo.Description = "API de consulta de CEP utilizando Clean Architecture e Golang"
-	docs.SwaggerInfo.Version = "1.0.0"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	api.GET("/health-check", healthcheck_controller.HealthCheck())
 
 	// Serve Swagger UI
 	router.GET("/swagger/", ginSwagger.WrapHandler(swaggerFiles.Handler))

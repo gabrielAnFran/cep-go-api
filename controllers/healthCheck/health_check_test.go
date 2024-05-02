@@ -1,4 +1,4 @@
-package healthcheck_controlle
+package healthcheck_controller
 
 import (
 	"cep-gin-clean-arch/models"

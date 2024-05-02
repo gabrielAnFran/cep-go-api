@@ -1,9 +1,13 @@
 package models
 
 type CEPResponse struct {
-	Rua    string `json:"rua"`
-	Bairro string `json:"bairro"`
-	Cidade string `json:"cidade"`
-	Estado string `json:"estado"`
+	Rua    string `json:"rua" example:"Rua dos Eldar"`
+	Bairro string `json:"bairro" example:"Rivendell"`
+	Cidade string `json:"cidade" example:"Mirkwood"`
+	Estado string `json:"estado" example:"Arnor"`
 }
 
+type ErrorResponse struct {
+	Error        string `json:"error"`
+	CepInformado string `json:"cep"`
+}

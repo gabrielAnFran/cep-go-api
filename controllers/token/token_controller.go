@@ -2,13 +2,10 @@ package token_controller
 
 import (
 	"cep-gin-clean-arch/internal/entity"
+	"cep-gin-clean-arch/models"
 	"cep-gin-clean-arch/utils"
 
 	"github.com/gin-gonic/gin"
-)
-
-const (
-	erroAoGerarToken = "Erro interno ao tentar gerar o token JWT"
 )
 
 type GerarTokenHandler struct {
@@ -21,12 +18,24 @@ func NewGerarTokenHandler(gerarTokenRepository entity.GerarTokenInterface) *Gera
 	}
 }
 
+// @Summary      Gerar um token JWT
+// @Description  Gera um token JWT para ser utilizado na requisicão de CEP
+// @Tags         Token
+// @Accept       json
+// @Produce      json
+// @security 	 BasicAuth
+// @Success      200  {object}  string
+// @Router       /gerar-token [post]
+// @Success      500  {object}  models.TokenErrorResponse
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
 	token, err := h.GerarTokenInterface.GenerateTokenJWT()
 	if err != nil {
 		utils.GravarErroNoSentry(err, c)
-		c.AbortWithStatusJSON(500, erroAoGerarToken)
+		errToken := models.TokenErrorResponse{
+			Error: err.Error(),
+		}
+		c.JSON(500, errToken)
 		return
 	}
 
