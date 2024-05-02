@@ -33,3 +33,11 @@ func TestBuscarTokenSucesso(t *testing.T) {
 	assert.Equal(t, 200, response.Code)
 	assert.NotEmpty(t, responseData)
 }
+
+func TestNewGerarTokenHandler(t *testing.T) {
+	mockRepository := new(usecase.UsecaseAuth)
+	handler := NewGerarTokenHandler(mockRepository)
+
+	assert.NotNil(t, handler)
+	assert.Equal(t, mockRepository, handler.GerarTokenInterface)
+}

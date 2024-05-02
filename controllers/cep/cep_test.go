@@ -16,10 +16,10 @@ func TestBuscarCEPSucesso(t *testing.T) {
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
-	c.Params = gin.Params{{Key: "cep", Value: "01001000"}}
+	c.Params = gin.Params{{Key: "cep", Value: "99150000"}}
 
-	expectedCEP := models.CEPResponse{Estado: "SP", Cidade: "São Paulo", Bairro: "Sé", Rua: "Praça da Sé"}
-	serviceCEP.On("Buscar", "01001000").Return(expectedCEP, nil)
+	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Marau", Bairro: "Frei Adelar", Rua: "Festivo"}
+	serviceCEP.On("Buscar", "99150000").Return(expectedCEP, nil)
 
 	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
 
@@ -39,4 +39,14 @@ func TestBuscarCEPSucesso(t *testing.T) {
 	assert.Equal(t, 200, response.Code)
 	assert.Equal(t, expectedResponseCEP, responseBody)
 
+}
+
+func TestNewBuscarCEPHandler(t *testing.T) {
+	mockRepository := new(mocks.CEPRepositoryInterface)
+
+	handler := NewBuscarCEPHandler(mockRepository)
+
+	if handler.CEPRepository != mockRepository {
+		t.Errorf("Expected CEPRepository to be set to the mock repository")
+	}
 }

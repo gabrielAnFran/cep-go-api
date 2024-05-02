@@ -1,7 +1,6 @@
 package database
 
 import (
-	mockdb "cep-gin-clean-arch/mock-db"
 	"cep-gin-clean-arch/models"
 	"testing"
 )
@@ -13,8 +12,6 @@ func TestBuscar(t *testing.T) {
 	cep := "01001000"
 
 	expectedCEP := models.CEPResponse{Estado: "SP", Cidade: "São Paulo", Bairro: "Sé", Rua: "Praça da Sé"}
-
-	mockdb.CEPS[cep] = expectedCEP
 
 	result, err := repo.Buscar(cep)
 	if err != nil {

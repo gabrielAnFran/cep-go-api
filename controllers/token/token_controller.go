@@ -33,7 +33,7 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.GravarErroNoSentry(err, c)
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"error": "Ocorreu um erro ao receber dados da requisição. Verifique se os campos estão corretos.",
 		})
 		return
 	}
@@ -42,7 +42,7 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 	if err != nil {
 		utils.GravarErroNoSentry(err, c)
 		errToken := models.TokenErrorResponse{
-			Error: err.Error(),
+			Error: "Ocorreu um erro inesperado ao gerar o token",
 		}
 		c.JSON(500, errToken)
 		return

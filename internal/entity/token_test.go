@@ -67,3 +67,12 @@ func TestTokenLoginIsValidTokenLoginInvalidEmailFormat(t *testing.T) {
 		t.Errorf("Erro de validação do token error message = %v, want %v", err.Error(), errorMsg)
 	}
 }
+
+func TestNewTokenLogin(t *testing.T) {
+	email := "test@example.com"
+	token := NewTokenLogin(email)
+
+	if token.Email != email {
+		t.Errorf("Email incorreto, got %s, want %s", token.Email, email)
+	}
+}
