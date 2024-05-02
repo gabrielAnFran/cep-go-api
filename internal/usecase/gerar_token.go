@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"cep-gin-clean-arch/models"
 	"crypto/rand"
 	"fmt"
 	"os"
@@ -9,9 +10,9 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-type ServiceAuth struct{}
+type UsecaseAuth struct{}
 
-func (ServiceAuth) GenerateTokenJWT() (string, error) {
+func (UsecaseAuth) GenerateTokenJWT(models.TokenLoginRequest) (string, error) {
 	now := time.Now().UTC()
 
 	// Gerando um ID unico para o token
