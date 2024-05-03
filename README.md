@@ -40,11 +40,28 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 | **Swaggo**      | Ferramenta para Go que gera automaticamente documentação de API RESTful com Swagger. |
 | **Sentry**      | Serviço que ajuda a detectar, monitorar e corrigir falhas em tempo real em toda a stack da app. |
 | **Mockery**     | Ferramenta para gerar mocks para testes em Go, facilitando a criação de unit tests. |
-| **GitHub Actions**        | Ferramenta utilizada para rodar os testes quando um PR é submetido para a brandh `main`.  |
+| **GitHub Actions**        | Ferramenta utilizada para rodar os testes quando um PR é submetido para a branch `main`.  |
+---
+
+## Rodando o projeto
+
+### Pré-requisitos
+
+- Go
+- [Swaggo](https://github.com/swaggo/swag?tab=readme-ov-file#getting-started)
+
+### Instruções
+
+1. Clone o repositório
+2. `go mod tidy`
+3. Execute o comando `make run`
+
+> **Nota**: `make run` installa o swaggo, roda `swaggo init` para gerar as docs e `go run main.go` para inicializar o projeto. Para rodar os testes, `make test`. Uma GitHub action também roda os testes quando um PR é submetido para a branch **main**.
+
 ---
 
 ## Licença
 
-Este projeto é distribuído sob a licença MIT License, que é uma licença de código aberto. Isso significa que qualquer pessoa pode livremente usar, modificar e distribuir o código-fonte, desde que as condições da licença MIT License sejam respeitadas. Para mais detalhes sobre o que é permitido ou não sob esta licença, consulte o arquivo LICENSE incluído neste repositório ou visite [MIT License](https://opensource.org/license/mit).
+Este projeto é distribuído sob a licença MIT License, que é uma licença de código aberto. Isso significa que qualquer pessoa pode livremente usar, modificar e distribuir o código-fonte, desde que as condições da licença MIT License sejam respeitadas. Para mais detalhes sobre o que é permitido ou não sob esta licença, visite [MIT License](https://opensource.org/license/mit).
 
 A escolha desta licença visa promover uma colaboração aberta e o uso livre do software, permitindo que a comunidade contribua e beneficie-se das melhorias continuamente.
