@@ -67,3 +67,27 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 Este projeto é distribuído sob a licença MIT License, que é uma licença de código aberto. Isso significa que qualquer pessoa pode livremente usar, modificar e distribuir o código-fonte, desde que as condições da licença MIT License sejam respeitadas. Para mais detalhes sobre o que é permitido ou não sob esta licença, visite [MIT License](https://opensource.org/license/mit).
 
 A escolha desta licença visa promover uma colaboração aberta e o uso livre do software, permitindo que a comunidade contribua e beneficie-se das melhorias continuamente.
+
+## HTTP
+
+1. Ao digitar uma URL no browser, primeiramente, o endereço deve ser transformado em um endereço de IP. Isso acontece atravas de DNS Resolution.
+2. Após a resolução de DNS, o navegador estabelece uma conexão segura (ou nao, depende) com o servidor por meio de protocolos de segurança como o HTTPS, que utiliza criptografia para proteger a comunicação entre o cliente e o servidor. O HTTPS garante a confidencialidade e integridade dos dados transmitidos, evitando que informações sensíveis sejam interceptadas por terceiros. Além disso, certificados SSL/TLS são utilizados para autenticar a identidade do servidor, garantindo que o navegador está se comunicando com o servidor correto.
+3. Quando um servidor recebe uma solicitação, ele pode responder com um código de status de redirecionamento, como o código 301 (Permanent Redirect) ou 302 (Temporary Redirect), ou acessar destino diretamente. Caso haja um redirect, o navegador então segue o redirecionamento e faz uma nova solicitação para o novo endereço fornecido pelo servidor. Redirects podem ser usados para:
+   1. Direcionar para uma página atualizada
+   2. Corrigir URLs incorretas
+   3. Redirecionar tráfego de um site para outro
+4. Depois desse processo todo, a request acessa o servidor e o servidor responde com o contedo da página/serviço solicitada.
+
+```mermaid
+flowchart TB
+    A[Digitar uma URL no browser] --> B[Transforma o endereço em um endereço de IP - DNS Resolution]
+    B --> C[Estabelece uma conexão segura com o servidor usando protocolos de segurança como HTTPS]
+    C --> D[Utiliza criptografia para proteger a comunicação entre cliente e servidor]
+    D --> E[Garante a confidencialidade e integridade dos dados transmitidos e utiliza certificados SSL/TLS para autenticar a identidade do servidor]
+    E --> F[Recebe uma resposta do servidor com um código de status de redirecionamento, como 301 ou 302 - ou acessa o destino diretamente]
+    F --> A
+    F --> G[Caso redirect: Segue o redirecionamento para o novo endereço fornecido pelo servidor]
+    G --> H[Realiza uma nova solicitação para o novo local, conforme indicado pelo servidor]
+    H --> I[Utiliza redirecionamento para direcionar usuários para páginas atualizadas, corrigir URLs incorretas ou redirecionar tráfego entre sites]
+    I --> A
+```
