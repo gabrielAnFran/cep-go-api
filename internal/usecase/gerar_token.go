@@ -35,7 +35,5 @@ func (UsecaseAuth) GenerateTokenJWT(models.TokenLoginRequest) (string, error) {
 		return "", err
 	}
 
-	// Mock de um token para retorno
-
 	return tokenString, nil
 }
