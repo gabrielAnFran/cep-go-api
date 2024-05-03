@@ -54,6 +54,9 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 
 ### Instruções
 
+> **Importante**: o arquivo .env.example mostra como deve ser o .env do projeto, que é necessário para rodar a app. Um exemplo é a variável HTTP_PORT.
+
+
 1. Clone o repositório
 2. `go mod tidy`
 3. Execute o comando `make run`
