@@ -70,9 +70,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "": [
-                            ""
-                        ]
+                        "BasicAuth": []
                     }
                 ],
                 "description": "Gera um token JWT para ser utilizado na requisicão de CEP",
@@ -102,6 +100,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.TokenLoginRequest"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.TokenErrorResponse"
                         }
                     },
                     "500": {

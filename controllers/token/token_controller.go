@@ -28,10 +28,11 @@ const (
 // @Tags         Token
 // @Accept       json
 // @Produce      json
-// @security 	 []
+// @security 	 BasicAuth
 // @Param   req     body    models.TokenLoginRequest   true    "Token Login Request"
 // @Router       /gerar-token [post]
 // @Failure      500  {object}  models.TokenErrorResponse
+// @Failure      400  {object}  models.TokenErrorResponse
 // @Success      200 {object}   models.TokenLoginRequest
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 

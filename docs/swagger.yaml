@@ -111,13 +111,16 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.TokenLoginRequest'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.TokenErrorResponse'
         "500":
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.TokenErrorResponse'
       security:
-      - "":
-        - ""
+      - BasicAuth: []
       summary: Gerar um token JWT
       tags:
       - Token
