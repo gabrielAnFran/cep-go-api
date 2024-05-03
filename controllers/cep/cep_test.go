@@ -95,7 +95,7 @@ func TestBuscarCEPInvalido(t *testing.T) {
 	assert.Equal(t, "CEP inválido", responseBody.Error)
 }
 
-func TestBuscarCEPNaoEncontrado(t *testing.T) {
+func TestBuscarCEPNaoNumerico(t *testing.T) {
 	serviceCEP := new(mocks.CEPRepositoryInterface)
 
 	response := httptest.NewRecorder()
