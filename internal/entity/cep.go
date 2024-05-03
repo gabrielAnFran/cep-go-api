@@ -29,7 +29,7 @@ func (c *CEP) IsValidCep(cep string) error {
 	}
 
 	if len(cep) != 8 {
-		return errors.New("CEP inválido")
+		return errors.New("CEP deve conter 8 dígitos numéricos")
 	}
 
 	if cep == "00000000" {

@@ -61,3 +61,18 @@ func TestIsValidCepLetras(t *testing.T) {
 		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
 	}
 }
+
+func TestIsValidTamanhoInvalido(t *testing.T) {
+	cep := "1111111111"
+	c := &CEP{}
+
+	err := c.IsValidCep(cep)
+
+	if err == nil {
+		t.Error("CEP deve conter 8 dígitos numéricos")
+	}
+
+	if err.Error() != "CEP deve conter 8 dígitos numéricos" {
+		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
+	}
+}
