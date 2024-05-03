@@ -4,6 +4,9 @@ import (
 	"cep-gin-clean-arch/models"
 	"encoding/json"
 	"errors"
+	"os"
+
+	"github.com/supabase-community/supabase-go"
 )
 
 type CEPRepository struct{}
@@ -55,14 +58,13 @@ const jsonDados = `
     {"CEP": "13327220", "Estado": "SP", "Cidade": "Salto", "Bairro": "Jardim Saltense", "Rua": "Rua Acácio Rodrigues de Moraes"},
     {"CEP": "13401130", "Estado": "SP", "Cidade": "Piracicaba", "Bairro": "Paulista", "Rua": "Rua Sud Mennucci"},
     {"CEP": "17022113", "Estado": "SP", "Cidade": "Bauru", "Bairro": "Vila São Paulo", "Rua": "Rua Gaudêncio Piola"},
-    {"CEP": "20020030", "Estado": "RJ", "Cidade": "Rio de Janeiro", "Bairro": "Centro", "Rua": "Praça Academia"},
-    {"CEP": "99150000", "Estado": "RS", "Cidade": "Marau", "Bairro": "Centro", "Rua": "Das Flechas"},
-	{"CEP": "11000000", "Estado": "RJ", "Cidade": "Rio de Janeiro", "Bairro": "Inhaúma", "Rua": "Rua José dos Reis"},
-	{"CEP": "23456700", "Estado": "MiddleEarth", "Cidade": "Rivendell", "Bairro": "Elven Kingdom", "Rua": "Last Homely House East of the Sea"}
+    {"CEP": "20020030", "Estado": "RJ", "Cidade": "Rio de Janeiro", "Bairro": "Centro", "Rua": "Praça Academia"}
 ]
 `
 
 func (r *CEPRepository) Buscar(cep string) (models.CEPResponse, error) {
+
+	// Primeiro busca os dados "em memória"
 	dados := []byte(jsonDados)
 
 	var addresses []Address
@@ -78,7 +80,7 @@ func (r *CEPRepository) Buscar(cep string) (models.CEPResponse, error) {
 	for _, address := range addresses {
 		addressMap[address.CEP] = address
 	}
-
+	// Se o CEP estiver na memória, retorna os dados
 	desiredAddress, found := addressMap[cep]
 	if found {
 		return models.CEPResponse{
@@ -89,5 +91,50 @@ func (r *CEPRepository) Buscar(cep string) (models.CEPResponse, error) {
 		}, nil
 	}
 
-	return models.CEPResponse{}, errors.New("CEP não encontrado")
+	// Caso nao encontre, busca na tabela Supabase
+	// Se der erro ao buscar na tabela Supabase, retorna um objeto vazio e o erro, que sera logado no sentry
+	// Exemplo: CEP 99150000 nao se encontra no json mas está na tabela Supabase
+	address, err := buscarDadosNaTabelaSupabase(cep)
+	if err != nil {
+		return models.CEPResponse{}, errors.New("Supabase: Erro ao acessar dados de CEP: " + err.Error())
+	}
+
+	// Se encontrou na tabela Supabase, retorna os dados
+	return models.CEPResponse{
+		Estado: address.Estado,
+		Cidade: address.Cidade,
+		Bairro: address.Bairro,
+		Rua:    address.Rua,
+	}, nil
+
+}
+
+func buscarDadosNaTabelaSupabase(cep string) (Address, error) {
+	// Cliente do Supabase
+	client, err := supabase.NewClient(os.Getenv("SUPABASE_URL"), os.Getenv("SUPABASE_KEY"), nil)
+	if err != nil {
+		return Address{}, err
+	}
+
+	data, _, err := client.From("cep").
+		Select("rua, bairro, cidade, estado", "exact", false).
+		Eq("cep", cep).
+		Execute()
+	if err != nil {
+		return Address{}, err
+	}
+
+	var addresses []Address
+	err = json.Unmarshal([]byte(data), &addresses)
+	if err != nil {
+		return Address{}, err
+	}
+
+	// Caso retorne um array vazio, retorna um erro
+	if len(addresses) == 0 {
+		return Address{}, errors.New("CEP não encontrado")
+	}
+
+	// se o len de addresses for maior que 0, retorna o primeiro endereco
+	return addresses[0], nil
 }
