@@ -41,6 +41,8 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 | **Sentry**      | Serviço que ajuda a detectar, monitorar e corrigir falhas em tempo real em toda a stack da app. |
 | **Mockery**     | Ferramenta para gerar mocks para testes em Go, facilitando a criação de unit tests. |
 | **GitHub Actions**        | Ferramenta utilizada para rodar os testes quando um PR é submetido para a branch `main`.  |
+| **Supabase**        | Alternativa de código aberto ao Firebase. possibilita a instanciação de um banco de dados Postgres, Autenticação e autorização. No contexto desse projeto, foi utilizado para a criação de uma tabela de Cep e uma função para buscar um endereço por CEP.  |
+
 ---
 
 ## Rodando o projeto
