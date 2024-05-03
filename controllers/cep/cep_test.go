@@ -41,6 +41,38 @@ func TestBuscarCEPSucesso(t *testing.T) {
 
 }
 
+func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
+	serviceCEP := new(mocks.CEPRepositoryInterface)
+
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
+
+	// CEP que existe no banco
+	// {"CEP": "95010000", "Estado": "RS", "Cidade": "Caxias do Sul", "Bairro": "Centro", "Rua": "Rua Sinimbu"},
+	c.Params = gin.Params{{Key: "cep", Value: "95010111"}}
+	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Caxias do Sul", Bairro: "Centro", Rua: "Rua Sinimbu"}
+	serviceCEP.On("Buscar", "95010111").Return(expectedCEP, nil)
+
+	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+
+	webCEPHandler.BuscarCEP(c)
+
+	responseBody := models.CEPResponse{}
+
+	err := json.NewDecoder(response.Body).Decode(&responseBody)
+	assert.Equal(t, nil, err)
+
+	expectedResponseCEP := models.CEPResponse{}
+	expectedResponseCEP.Estado = expectedCEP.Estado
+	expectedResponseCEP.Cidade = expectedCEP.Cidade
+	expectedResponseCEP.Bairro = expectedCEP.Bairro
+	expectedResponseCEP.Rua = expectedCEP.Rua
+
+	assert.Equal(t, 200, response.Code)
+	assert.Equal(t, expectedResponseCEP, responseBody)
+
+}
+
 func TestBuscarCEPInvalido(t *testing.T) {
 	serviceCEP := new(mocks.CEPRepositoryInterface)
 
@@ -61,6 +93,28 @@ func TestBuscarCEPInvalido(t *testing.T) {
 
 	assert.Equal(t, 400, response.Code)
 	assert.Equal(t, "CEP inválido", responseBody.Error)
+}
+
+func TestBuscarCEPNaoEncontrado(t *testing.T) {
+	serviceCEP := new(mocks.CEPRepositoryInterface)
+
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
+	c.Params = gin.Params{{Key: "cep", Value: "000000qq"}}
+
+	serviceCEP.On("Buscar", "000000qq").Return(models.CEPErrorResponse{Error: "CEP deve conter apenas dígitos numéricos"}, nil)
+
+	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+
+	webCEPHandler.BuscarCEP(c)
+
+	responseBody := models.CEPErrorResponse{}
+
+	err := json.NewDecoder(response.Body).Decode(&responseBody)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, 400, response.Code)
+	assert.Equal(t, "CEP deve conter apenas dígitos numéricos", responseBody.Error)
 }
 
 func TestNewBuscarCEPHandler(t *testing.T) {
