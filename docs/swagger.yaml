@@ -97,6 +97,13 @@ paths:
       consumes:
       - application/json
       description: Gera um token JWT para ser utilizado na requisicão de CEP
+      parameters:
+      - description: Token Login Request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/models.TokenLoginRequest'
       produces:
       - application/json
       responses:
@@ -109,7 +116,8 @@ paths:
           schema:
             $ref: '#/definitions/models.TokenErrorResponse'
       security:
-      - BasicAuth: []
+      - "":
+        - ""
       summary: Gerar um token JWT
       tags:
       - Token
