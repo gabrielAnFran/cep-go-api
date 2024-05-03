@@ -20,16 +20,20 @@ func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface) *CEP
 	}
 }
 
-// @Summary      Busca um CEP em um repositório
-// @Description  Busca um CEP em um repositório
+// @Summary      Buscar um CEP em um repositório
+// @Description  Endpoint para buscar um CEP em um repositório
 // @Tags         CEP
 // @Accept       json
 // @Produce      json
-// @Param        cep   path      string  true  "CEP"
-// @Success      200  {object}  usecase.BuscarCepOutputDTO
-// @Success      400  {object}  models.CEPErrorResponse
+// @Param        cep   path      string  true  "CEP a ser buscado"
+// @Success      200  {object}  usecase.BuscarCepOutputDTO  "Retorna o CEP encontrado com sucesso"
+// @Success      400  {object}  models.CEPErrorResponse       "Erro ao buscar o CEP"
 // @Router       /cep/{cep} [get]
 // @security 	 BasicAuth
+// @securityDefinitions.bearer  BearerAuth
+// @securityDefinitions.bearer.scheme  bearer
+// @securityDefinitions.bearer.type  http
+// @securityDefinitions.bearer.bearerFormat  JWT
 func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 
 	cepParam := c.Param("cep")

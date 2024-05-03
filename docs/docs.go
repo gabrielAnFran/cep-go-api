@@ -11,7 +11,7 @@ const docTemplate = `{
         "title": "{{.Title}}",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
-            "name": "API Support",
+            "name": "Suporte da API",
             "email": "antunes.f.gabriel@gmail.com"
         },
         "license": {
@@ -30,7 +30,7 @@ const docTemplate = `{
                         "BasicAuth": []
                     }
                 ],
-                "description": "Busca um CEP em um repositório",
+                "description": "Endpoint para buscar um CEP em um repositório",
                 "consumes": [
                     "application/json"
                 ],
@@ -40,11 +40,11 @@ const docTemplate = `{
                 "tags": [
                     "CEP"
                 ],
-                "summary": "Busca um CEP em um repositório",
+                "summary": "Buscar um CEP em um repositório",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "CEP",
+                        "description": "CEP a ser buscado",
                         "name": "cep",
                         "in": "path",
                         "required": true
@@ -52,13 +52,13 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Retorna o CEP encontrado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/usecase.BuscarCepOutputDTO"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Erro ao buscar o CEP",
                         "schema": {
                             "$ref": "#/definitions/models.CEPErrorResponse"
                         }
@@ -143,10 +143,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "cep": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "00000000"
                 },
                 "error": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "CEP inválido"
                 }
             }
         },
@@ -200,7 +202,7 @@ const docTemplate = `{
         }
     },
     "externalDocs": {
-        "description": "OpenAPI",
+        "description": "Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI para descrever sua API.",
         "url": "https://swagger.io/resources/open-api/"
     }
 }`
@@ -211,8 +213,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "Desafio CEP API",
-	Description:      "A API Desafio CEP fornece endpoints para buscar um CEP em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Com suporte a autenticação básica, a API oferece respostas em formato JSON e segue o padrão OpenAPI.",
+	Title:            "API Desafio CEP",
+	Description:      "A API Desafio CEP fornece endpoints para buscar códigos postais (CEPs) em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Esta API suporta autenticação básica, retorna respostas em formato JSON e adere à Especificação OpenAPI.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

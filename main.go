@@ -23,18 +23,20 @@ import (
 )
 
 // @version         1.0
-// @description     A API Desafio CEP fornece endpoints para buscar um CEP em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Com suporte a autenticação básica, a API oferece respostas em formato JSON e segue o padrão OpenAPI.
+// @description     A API Desafio CEP fornece endpoints para buscar códigos postais (CEPs) em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Esta API suporta autenticação básica, retorna respostas em formato JSON e adere à Especificação OpenAPI.
 // @termsOfService  http://swagger.io/terms/
-// @title 		    Desafio CEP API
-// @contact.name    API Support
+// @title           API Desafio CEP
+// @contact.name    Suporte da API
 // @contact.email   antunes.f.gabriel@gmail.com
 // @license.name    Apache 2.0
 // @license.url     http://www.apache.org/licenses/LICENSE-2.0.html
-// @host      localhost:8080
-// @BasePath  /api/v1
+// @host            localhost:8080
+// @BasePath        /api/v1
 // @securityDefinitions.basic  BasicAuth
-// @externalDocs.description  OpenAPI
+// @securityDefinitions.apiKey.description Use sua chave de API para acessar esta API.
+// @externalDocs.description  Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI para descrever sua API.
 // @externalDocs.url          https://swagger.io/resources/open-api/
+// @tag             Operações de CEP
 func main() {
 	// Carrega variáveis de ambiente
 	godotenv.Load()
@@ -44,7 +46,7 @@ func main() {
 	router := gin.Default()
 	router.Use(sentrygin.New(sentrygin.Options{}))
 	router.Use(cors.Default())
-	
+
 	// Inicializa as rotas da aplicação
 	rotas(router)
 

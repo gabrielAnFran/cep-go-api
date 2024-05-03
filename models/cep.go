@@ -8,6 +8,6 @@ type CEPResponse struct {
 }
 
 type CEPErrorResponse struct {
-	Error        string `json:"error"`
-	CepInformado string `json:"cep"`
+	Error        string `json:"error" example:"CEP inválido"`
+	CepInformado string `json:"cep" example:"00000000"`
 }

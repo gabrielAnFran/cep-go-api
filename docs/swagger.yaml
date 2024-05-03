@@ -9,8 +9,10 @@ definitions:
   models.CEPErrorResponse:
     properties:
       cep:
+        example: "00000000"
         type: string
       error:
+        example: CEP inválido
         type: string
     type: object
   models.TokenErrorResponse:
@@ -44,31 +46,32 @@ definitions:
         type: string
     type: object
 externalDocs:
-  description: OpenAPI
+  description: Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI
+    para descrever sua API.
   url: https://swagger.io/resources/open-api/
 host: localhost:8080
 info:
   contact:
     email: antunes.f.gabriel@gmail.com
-    name: API Support
-  description: A API Desafio CEP fornece endpoints para buscar um CEP em um repositório,
-    gerar um token JWT para autenticação e verificar a saúde da API. Com suporte a
-    autenticação básica, a API oferece respostas em formato JSON e segue o padrão
-    OpenAPI.
+    name: Suporte da API
+  description: A API Desafio CEP fornece endpoints para buscar códigos postais (CEPs)
+    em um repositório, gerar um token JWT para autenticação e verificar a saúde da
+    API. Esta API suporta autenticação básica, retorna respostas em formato JSON e
+    adere à Especificação OpenAPI.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Desafio CEP API
+  title: API Desafio CEP
   version: "1.0"
 paths:
   /cep/{cep}:
     get:
       consumes:
       - application/json
-      description: Busca um CEP em um repositório
+      description: Endpoint para buscar um CEP em um repositório
       parameters:
-      - description: CEP
+      - description: CEP a ser buscado
         in: path
         name: cep
         required: true
@@ -77,16 +80,16 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Retorna o CEP encontrado com sucesso
           schema:
             $ref: '#/definitions/usecase.BuscarCepOutputDTO'
         "400":
-          description: Bad Request
+          description: Erro ao buscar o CEP
           schema:
             $ref: '#/definitions/models.CEPErrorResponse'
       security:
       - BasicAuth: []
-      summary: Busca um CEP em um repositório
+      summary: Buscar um CEP em um repositório
       tags:
       - CEP
   /gerar-token:
