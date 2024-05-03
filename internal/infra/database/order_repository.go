@@ -96,7 +96,7 @@ func (r *CEPRepository) Buscar(cep string) (models.CEPResponse, error) {
 	// Exemplo: CEP 99150000 nao se encontra no json mas está na tabela Supabase
 	address, err := buscarDadosNaTabelaSupabase(cep)
 	if err != nil {
-		return models.CEPResponse{}, errors.New("Supabase: Erro ao acessar dados de CEP: " + err.Error())
+		return models.CEPResponse{}, errors.New(err.Error())
 	}
 
 	// Se encontrou na tabela Supabase, retorna os dados
