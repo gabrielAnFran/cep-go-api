@@ -1,3 +1,4 @@
+.PHONY: test run
 test:
 	echo Running GO tests
 	mkdir -p cover

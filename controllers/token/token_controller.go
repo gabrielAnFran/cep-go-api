@@ -28,8 +28,8 @@ const (
 // @Tags         Token
 // @Accept       json
 // @Produce      json
-// @security 	 BasicAuth
-// @Success      200  {object}  string
+// @security 	 []
+// @Param   req     body    models.TokenLoginRequest   true    "Token Login Request"
 // @Router       /gerar-token [post]
 // @Failure      500  {object}  models.TokenErrorResponse
 // @Success      200 {object}   models.TokenLoginRequest
