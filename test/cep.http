@@ -1,2 +1,37 @@
 GET http://localhost:8080/cep/01001000 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ3NDczNDIsImlhdCI6MTcxNDc0Mzc0MiwianRpIjoiMjQyQzk1NEYtNkJCQS1GQjc4LUUzMjUtOEFBNDQ2ODlCREE1IiwibmJmIjoxNzE0NzQzNzQyLCJzdWIiOjF9.Nnb2obeI7TGsdTm793S9WhgT8Q5swRGfEjvpa4mtpwk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+###
+// CEP que não existe no banco local mas existe no banco hosteado na supabase
+GET http://localhost:8080/cep/99150000 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+### 
+
+// CEP invalido 
+GET http://localhost:8080/cep/00000000 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+### 
+
+// CEP invalido com caracteres não numericos
+GET http://localhost:8080/cep/000q000 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+### 
+
+// CEP que nao existe nem no banco local nem na supabase, mas que substituindo os ultimos digitos por 0 existe é encontrado na supabase
+GET http://localhost:8080/cep/11111111 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+### 
+
+// CEP que nao existe nem no banco local nem na supabase, mas que substituindo os ultimos digitos por 0 existe é no banco local
+GET http://localhost:8080/cep/93011111 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
+
+###
+
+// CEP original da request acima
+GET http://localhost:8080/cep/93011000 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4Mzg0NzQsImlhdCI6MTcxNDgzNDg3NCwianRpIjoiMUQ4OTlEQkQtMTAxMi03NDRGLTk1QTEtMDg5NzBGNzA3RjFEIiwibmJmIjoxNzE0ODM0ODc0LCJzdWIiOjF9.Y_vkLiadyLdXUCbjoGKZ7mtAsJ1oPsSiPM1C0opzdic
