@@ -71,6 +71,13 @@ Este projeto é distribuído sob a licença MIT License, que é uma licença de 
 
 A escolha desta licença visa promover uma colaboração aberta e o uso livre do software, permitindo que a comunidade contribua e beneficie-se das melhorias continuamente.
 
+--
+
+## Exemplos de uso
+
+Exemplos de uso podem ser encontrados no projeto em `/test/postman`, onde se encontra a collection do postman e em `/test/`, onde se encontra os arquivos `.http` que podem ser usados para testar diretamente da IDE.
+
+---
 ## HTTP
 
 1. Ao digitar uma URL no browser, primeiramente, o endereço deve ser transformado em um endereço de IP. Isso acontece atravas de DNS Resolution.
@@ -79,7 +86,7 @@ A escolha desta licença visa promover uma colaboração aberta e o uso livre do
    1. Direcionar para uma página atualizada
    2. Corrigir URLs incorretas
    3. Redirecionar tráfego de um site para outro
-4. Depois desse processo todo, a request acessa o servidor e o servidor responde com o contedo da página/serviço solicitada.
+4. Depois desse processo todo, a request acessa o servidor que processa a request, executa a lógica e gera a resposta apropriada, que retorna para o cliente.
 
 ```mermaid
 flowchart TB
