@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   HealthCheck:
     properties:
@@ -45,10 +44,6 @@ definitions:
         example: Rua José dos Reis
         type: string
     type: object
-externalDocs:
-  description: Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI
-    para descrever sua API.
-  url: https://swagger.io/resources/open-api/
 host: localhost:8080
 info:
   contact:
@@ -87,8 +82,6 @@ paths:
           description: Erro ao buscar o CEP
           schema:
             $ref: '#/definitions/models.CEPErrorResponse'
-      security:
-      - BasicAuth: []
       summary: Buscar um CEP em um repositório
       tags:
       - CEP
@@ -142,6 +135,8 @@ paths:
       tags:
       - Health Check
 securityDefinitions:
-  BasicAuth:
-    type: basic
+  OAuth2:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

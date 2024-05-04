@@ -29,11 +29,9 @@ func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface) *CEP
 // @Success      200  {object}  usecase.BuscarCepOutputDTO  "Retorna o CEP encontrado com sucesso"
 // @Success      400  {object}  models.CEPErrorResponse       "Erro ao buscar o CEP"
 // @Router       /cep/{cep} [get]
-// @security 	 BasicAuth
-// @securityDefinitions.bearer  BearerAuth
-// @securityDefinitions.bearer.scheme  bearer
-// @securityDefinitions.bearer.type  http
-// @securityDefinitions.bearer.bearerFormat  JWT
+// @securityDefinitions.apiKey OAuth2
+// @in header
+// @name Authorization
 func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 
 	cepParam := c.Param("cep")

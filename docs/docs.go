@@ -25,11 +25,6 @@ const docTemplate = `{
     "paths": {
         "/cep/{cep}": {
             "get": {
-                "security": [
-                    {
-                        "BasicAuth": []
-                    }
-                ],
                 "description": "Endpoint para buscar um CEP em um repositório",
                 "consumes": [
                     "application/json"
@@ -214,13 +209,11 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
+        "OAuth2": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
-    },
-    "externalDocs": {
-        "description": "Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI para descrever sua API.",
-        "url": "https://swagger.io/resources/open-api/"
     }
 }`
 
@@ -228,7 +221,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "API Desafio CEP",
 	Description:      "A API Desafio CEP fornece endpoints para buscar códigos postais (CEPs) em um repositório, gerar um token JWT para autenticação e verificar a saúde da API. Esta API suporta autenticação básica, retorna respostas em formato JSON e adere à Especificação OpenAPI.",

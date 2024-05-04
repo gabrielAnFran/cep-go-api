@@ -15,15 +15,9 @@
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/api/v1",
     "paths": {
         "/cep/{cep}": {
             "get": {
-                "security": [
-                    {
-                        "BasicAuth": []
-                    }
-                ],
                 "description": "Endpoint para buscar um CEP em um repositório",
                 "consumes": [
                     "application/json"
@@ -208,12 +202,10 @@
         }
     },
     "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
+        "OAuth2": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
-    },
-    "externalDocs": {
-        "description": "Documentação detalhada e exemplos sobre como usar a Especificação OpenAPI para descrever sua API.",
-        "url": "https://swagger.io/resources/open-api/"
     }
 }
