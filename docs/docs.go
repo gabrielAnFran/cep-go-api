@@ -39,7 +39,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "CEP a ser buscado",
+                        "description": "CEP a ser buscado sem hífen",
                         "name": "cep",
                         "in": "path",
                         "required": true
@@ -114,11 +114,6 @@ const docTemplate = `{
         },
         "/health-check": {
             "get": {
-                "security": [
-                    {
-                        "BasicAuth": []
-                    }
-                ],
                 "description": "Verifica a saúde da API. Retornando se a mesma está no ar.",
                 "consumes": [
                     "application/json"

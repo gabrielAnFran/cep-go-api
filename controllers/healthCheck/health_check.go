@@ -18,7 +18,9 @@ const (
 // @Produce      json
 // @Success      200  {object}  models.HealthCheck
 // @Router       /health-check [get]
-// @security 	 BasicAuth
+// @securityDefinitions.apiKey OAuth2
+// @in header
+// @name Authorization
 func HealthCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 

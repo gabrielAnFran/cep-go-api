@@ -66,7 +66,7 @@ paths:
       - application/json
       description: Endpoint para buscar um CEP em um repositório
       parameters:
-      - description: CEP a ser buscado
+      - description: CEP a ser buscado sem hífen
         in: path
         name: cep
         required: true
@@ -129,8 +129,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/HealthCheck'
-      security:
-      - BasicAuth: []
       summary: Verifica a saúde da API.
       tags:
       - Health Check
