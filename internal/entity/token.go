@@ -10,9 +10,10 @@ type TokenLogin struct {
 	Senha string `json:"senha"`
 }
 
-func NewTokenLogin(email string) *TokenLogin {
+func NewTokenLogin(email, senha string) *TokenLogin {
 	return &TokenLogin{
 		Email: email,
+		Senha: senha,
 	}
 }
 

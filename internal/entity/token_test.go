@@ -70,7 +70,8 @@ func TestTokenLoginIsValidTokenLoginInvalidEmailFormat(t *testing.T) {
 
 func TestNewTokenLogin(t *testing.T) {
 	email := "test@example.com"
-	token := NewTokenLogin(email)
+	senha := "password"
+	token := NewTokenLogin(email, senha)
 
 	if token.Email != email {
 		t.Errorf("Email incorreto, got %s, want %s", token.Email, email)
