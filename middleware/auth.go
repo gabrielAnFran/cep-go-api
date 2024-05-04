@@ -26,7 +26,7 @@ func AuthJWT() gin.HandlerFunc {
 
 		tokenString := bearerToken[1]
 
-		if tokenString != os.Getenv("TOKEN_TESTE") {
+		if tokenString != os.Getenv("TOKEN_TEST") {
 			_, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 				return []byte(os.Getenv("JWT_SECRET")), nil
 			})
