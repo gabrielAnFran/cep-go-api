@@ -24,26 +24,27 @@ func NewBuscarCEPUseCase(buscarCEPRepository entity.CEPRepositoryInterface) *Bus
 }
 
 func (b *BuscarCEPuseCase) Execute(input *string) (BuscarCepOutputDTO, error) { //return BuscarCepOutputDTO{}, errors.New("Testinho")
-	cep := entity.NewCep(*input)
-	if err := cep.IsValidCep(*input); err != nil {
-		return BuscarCepOutputDTO{}, err
+	// Execute é a função responsável por buscar um CEP.
+	// Se o CEP não for encontrado após adicionar os zeros, a função retorna um erro indicando que o CEP não foi encontrado.
+	// Caso contrário, retorna os detalhes do endereço correspondente ao CEP encontrado.
+	var cep string
+	if input != nil {
+		cep = *input
 	}
 
-	// Lógica do loop para add zero a direita até encontrar o CEP
-
+	// Loop para adicionar zeros à direita do CEP.
 	for i := 1; i < 8; i++ {
-		cepResponse, err := b.CEPRepository.Buscar(cep.Cep)
-		if err != nil {
-			if err.Error() == "CEP não encontrado" {
-				cep.Cep = cep.Cep[:8-i] + strings.Repeat("0", i)
-				continue // Continue the loop with the modified CEP
+		cepResponse, err := b.CEPRepository.Buscar(cep) // Chama o método Buscar do repositório para obter informações do CEP.
+		if err != nil {                                 // Verifica se houve um erro na busca do CEP.
+			if err.Error() == "CEP não encontrado" { // Verifica se o erro indica que o CEP não foi encontrado.
+				cep = cep[:8-i] + strings.Repeat("0", i) //  Caso seja, adiciona um zero à direita do CEP.
+				continue                                 // Vai para mais uma iteração do loop com o CEP modificado.
 			} else {
-				return BuscarCepOutputDTO{}, err
+				return BuscarCepOutputDTO{}, err // Retorna um erro se ocorrer um erro diferente de "CEP não encontrado".
 			}
 		} else {
-			return BuscarCepOutputDTO{Rua: cepResponse.Rua, Bairro: cepResponse.Bairro, Cidade: cepResponse.Cidade, Estado: cepResponse.Estado}, nil
+			return BuscarCepOutputDTO{Rua: cepResponse.Rua, Bairro: cepResponse.Bairro, Cidade: cepResponse.Cidade, Estado: cepResponse.Estado}, nil // Retorna os detalhes do endereço correspondente ao CEP encontrado.
 		}
 	}
-	return BuscarCepOutputDTO{}, errors.New("CEP não encontrado")
-
+	return BuscarCepOutputDTO{}, errors.New("CEP não encontrado") // Retorna um erro indicando que o CEP não foi encontrado após o loop.
 }
