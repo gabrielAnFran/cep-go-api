@@ -46,9 +46,20 @@ func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 		return
 	}
 
-	if req.Email == "" || req.Senha == "" {
+	// if req.Email == "" || req.Senha == "" {
+	// 	errToken := models.TokenErrorResponse{
+	// 		Error: erroComDadosRequisicao,
+	// 	}
+	// 	utils.GravarErroNoSentry(errors.New(errToken.Error), c)
+	// 	c.JSON(400, errToken)
+	// 	return
+	// }
+
+	tokenEntity := entity.NewTokenLogin(req.Email, req.Senha)
+	err := tokenEntity.IsValidTokenLogin()
+	if err != nil {
 		errToken := models.TokenErrorResponse{
-			Error: erroComDadosRequisicao,
+			Error: err.Error(),
 		}
 		utils.GravarErroNoSentry(errors.New(errToken.Error), c)
 		c.JSON(400, errToken)
