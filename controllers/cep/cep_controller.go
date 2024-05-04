@@ -25,7 +25,7 @@ func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface) *CEP
 // @Tags         CEP
 // @Accept       json
 // @Produce      json
-// @Param        cep   path      string  true  "CEP a ser buscado"
+// @Param        cep   path      string  true  "CEP a ser buscado sem "-""
 // @Success      200  {object}  usecase.BuscarCepOutputDTO  "Retorna o CEP encontrado com sucesso"
 // @Success      400  {object}  models.CEPErrorResponse       "Erro ao buscar o CEP"
 // @Router       /cep/{cep} [get]
