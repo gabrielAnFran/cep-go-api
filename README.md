@@ -27,7 +27,7 @@ A arquitura usada levou em consideração os seguintes componentes (ou camadas):
 
 ### Por que essa arquitetura?
 
-Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde as camadas se comunicam mas não estão "presas" umas as outras, tendo cada camada sua própria resposabilidade.
+Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde as camadas se comunicam mas não estão "presas" umas as outras, tendo cada camada sua própria resposabilidade. Um outro fator é que possibilita testes desacoplados.
 
 ---
 
