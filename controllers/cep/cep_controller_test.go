@@ -12,16 +12,16 @@ import (
 )
 
 func TestBuscarCEPSucesso(t *testing.T) {
-	serviceCEP := new(mocks.CEPRepositoryInterface)
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 	c.Params = gin.Params{{Key: "cep", Value: "99150000"}}
 
 	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Marau", Bairro: "Frei Adelar", Rua: "Festivo"}
-	serviceCEP.On("Buscar", "99150000").Return(expectedCEP, nil)
+	CEPRepositoryInterface.On("Buscar", "99150000").Return(expectedCEP, nil)
 
-	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -30,19 +30,19 @@ func TestBuscarCEPSucesso(t *testing.T) {
 	err := json.NewDecoder(response.Body).Decode(&responseBody)
 	assert.Equal(t, nil, err)
 
-	expectedResponseCEP := models.CEPResponse{}
-	expectedResponseCEP.Estado = expectedCEP.Estado
-	expectedResponseCEP.Cidade = expectedCEP.Cidade
-	expectedResponseCEP.Bairro = expectedCEP.Bairro
-	expectedResponseCEP.Rua = expectedCEP.Rua
+	responseCEP := models.CEPResponse{}
+	responseCEP.Estado = expectedCEP.Estado
+	responseCEP.Cidade = expectedCEP.Cidade
+	responseCEP.Bairro = expectedCEP.Bairro
+	responseCEP.Rua = expectedCEP.Rua
 
 	assert.Equal(t, 200, response.Code)
-	assert.Equal(t, expectedResponseCEP, responseBody)
+	assert.Equal(t, responseCEP, responseBody)
 
 }
 
 func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
-	serviceCEP := new(mocks.CEPRepositoryInterface)
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
@@ -51,9 +51,9 @@ func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
 	// {"CEP": "95010000", "Estado": "RS", "Cidade": "Caxias do Sul", "Bairro": "Centro", "Rua": "Rua Sinimbu"},
 	c.Params = gin.Params{{Key: "cep", Value: "95010111"}}
 	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Caxias do Sul", Bairro: "Centro", Rua: "Rua Sinimbu"}
-	serviceCEP.On("Buscar", "95010111").Return(expectedCEP, nil)
+	CEPRepositoryInterface.On("Buscar", "95010111").Return(expectedCEP, nil)
 
-	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -74,15 +74,15 @@ func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
 }
 
 func TestBuscarCEPInvalido(t *testing.T) {
-	serviceCEP := new(mocks.CEPRepositoryInterface)
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 	c.Params = gin.Params{{Key: "cep", Value: "00000000"}}
 
-	serviceCEP.On("Buscar", "00000000").Return(models.CEPErrorResponse{Error: "CEP inválido"}, nil)
+	CEPRepositoryInterface.On("Buscar", "00000000").Return(models.CEPErrorResponse{Error: "CEP inválido"}, nil)
 
-	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -96,15 +96,15 @@ func TestBuscarCEPInvalido(t *testing.T) {
 }
 
 func TestBuscarCEPNaoNumerico(t *testing.T) {
-	serviceCEP := new(mocks.CEPRepositoryInterface)
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 	c.Params = gin.Params{{Key: "cep", Value: "000000qq"}}
 
-	serviceCEP.On("Buscar", "000000qq").Return(models.CEPErrorResponse{Error: "CEP deve conter apenas dígitos numéricos"}, nil)
+	CEPRepositoryInterface.On("Buscar", "000000qq").Return(models.CEPErrorResponse{Error: "CEP deve conter apenas dígitos numéricos"}, nil)
 
-	webCEPHandler := CEPWebHandler{CEPRepository: serviceCEP}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
 
 	webCEPHandler.BuscarCEP(c)
 
