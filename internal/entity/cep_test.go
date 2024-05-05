@@ -4,6 +4,8 @@ package entity
 
 import (
 	"testing"
+
+	"github.com/go-playground/assert/v2"
 )
 
 func TestIsValidCepValido(t *testing.T) {
@@ -12,9 +14,7 @@ func TestIsValidCepValido(t *testing.T) {
 
 	err := c.IsValidCep(cep)
 
-	if err != nil {
-		t.Errorf("Nenhum erro esperado, recebeu %v", err)
-	}
+	assert.Equal(t, nil, err)
 }
 
 func TestIsValidCepVazio(t *testing.T) {
@@ -23,13 +23,9 @@ func TestIsValidCepVazio(t *testing.T) {
 
 	err := c.IsValidCep(cep)
 
-	if err == nil {
-		t.Error("Esperado erro para CEP vazio")
-	}
+	assert.NotEqual(t, nil, err)
+	assert.Equal(t, "CEP não pode ser vazio", err.Error())
 
-	if err.Error() != "CEP não pode ser vazio" {
-		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
-	}
 }
 
 func TestIsValidCepInvalido(t *testing.T) {
@@ -38,13 +34,8 @@ func TestIsValidCepInvalido(t *testing.T) {
 
 	err := c.IsValidCep(cep)
 
-	if err == nil {
-		t.Error("Erro esperado e não retornado para CEP")
-	}
-
-	if err.Error() != "CEP inválido" {
-		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
-	}
+	assert.NotEqual(t, nil, err)
+	assert.Equal(t, "CEP inválido", err.Error())
 }
 
 func TestIsValidCepLetras(t *testing.T) {
@@ -53,13 +44,9 @@ func TestIsValidCepLetras(t *testing.T) {
 
 	err := c.IsValidCep(cep)
 
-	if err == nil {
-		t.Error("Erro esperado e não retornado para CEP com letras.")
-	}
+	assert.NotEqual(t, nil, err)
+	assert.Equal(t, "CEP deve conter apenas dígitos numéricos", err.Error())
 
-	if err.Error() != "CEP deve conter apenas dígitos numéricos" {
-		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
-	}
 }
 
 func TestIsValidTamanhoInvalido(t *testing.T) {
@@ -68,11 +55,7 @@ func TestIsValidTamanhoInvalido(t *testing.T) {
 
 	err := c.IsValidCep(cep)
 
-	if err == nil {
-		t.Error("CEP deve conter 8 dígitos numéricos")
-	}
-
-	if err.Error() != "CEP deve conter 8 dígitos numéricos" {
-		t.Errorf("Erro esperado CEP deve conter apenas dígitos numéricos, recebeu %v", err)
-	}
+	assert.NotEqual(t, nil, err)
+	assert.Equal(t,"CEP deve conter 8 dígitos numéricos", err.Error())
+	
 }
