@@ -2,7 +2,10 @@ package database
 
 import (
 	"cep-gin-clean-arch/models"
+	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestBuscar(t *testing.T) {
@@ -27,4 +30,22 @@ func TestBuscar(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected error, got nil")
 	}
+}
+
+func TestBuscarNaSupabaseHostInexistente(t *testing.T) {
+	repo := NewCEPRepository()
+
+	os.Setenv("SUPABASE_URL", "http://localhost:5432")
+	os.Setenv("SUPABASE_KEY", "123456789")
+
+	// CEP q só tem na supabase
+	cep := "99150000"
+
+	result, err := repo.Buscar(cep)
+
+	assert.NotEmpty(t, err)
+	assert.Empty(t, result)
+	assert.Contains(t, err.Error(), "connection refused")
+	//assert.Equal(t, "RS", result.Estado)
+
 }

@@ -23,7 +23,6 @@ type Address struct {
 	Rua    string `json:"Rua"`
 }
 
-
 func (r *CEPRepository) Buscar(cep string) (models.CEPResponse, error) {
 
 	// Primeiro busca os dados "em memória"
@@ -75,7 +74,7 @@ func buscarDadosNaTabelaSupabase(cep string) (Address, error) {
 	// Cliente do Supabase
 	client, err := supabase.NewClient(os.Getenv("SUPABASE_URL"), os.Getenv("SUPABASE_KEY"), nil)
 	if err != nil {
-		return Address{}, err
+		return Address{}, errors.New("Erro ao acessar dados de CEP: " + err.Error())
 	}
 
 	data, _, err := client.From("cep").
@@ -83,13 +82,13 @@ func buscarDadosNaTabelaSupabase(cep string) (Address, error) {
 		Eq("cep", cep).
 		Execute()
 	if err != nil {
-		return Address{}, err
+		return Address{}, errors.New("Erro ao acessar dados de CEP: " + err.Error())
 	}
 
 	var addresses []Address
 	err = json.Unmarshal([]byte(data), &addresses)
 	if err != nil {
-		return Address{}, err
+		return Address{}, errors.New("Erro ao acessar dados de CEP: " + err.Error())
 	}
 
 	// Caso retorne um array vazio, retorna um erro
