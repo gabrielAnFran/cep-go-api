@@ -1,28 +1,29 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
 GET http://localhost:8080/cep/01001000 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+Authorization: Bearer {{token}}
 
 ###
 // CEP que não existe no banco local mas existe no banco hosteado na supabase
 GET http://localhost:8080/cep/99150000 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+Authorization: Bearer {{token}}
 
 ### 
 
 // CEP invalido 
 GET http://localhost:8080/cep/00000000 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+Authorization: Bearer {{token}}
 
 ### 
 
 // CEP invalido com caracteres não numericos
 GET http://localhost:8080/cep/000q000 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+Authorization: Bearer {{token}}
 
 ### 
 
 // CEP que nao existe nem no banco local nem na supabase, mas que substituindo os ultimos digitos por 0 existe é encontrado na supabase
 GET http://localhost:8080/cep/11111111 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+Authorization: Bearer {{token}}
 
 ### 
 
