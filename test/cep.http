@@ -2,8 +2,9 @@
 GET http://localhost:8080/cep/01001000 HTTP/1.1
 Authorization: Bearer {{token}}
 
-###
-// CEP que não existe no banco local mas existe no banco hosteado na supabase
+### 
+
+// CEP que nao existe no banco local
 GET http://localhost:8080/cep/99150000 HTTP/1.1
 Authorization: Bearer {{token}}
 
@@ -21,13 +22,7 @@ Authorization: Bearer {{token}}
 
 ### 
 
-// CEP que nao existe nem no banco local nem na supabase, mas que substituindo os ultimos digitos por 0 existe é encontrado na supabase
-GET http://localhost:8080/cep/11111111 HTTP/1.1
-Authorization: Bearer {{token}}
-
-### 
-
-// CEP que nao existe nem no banco local nem na supabase, mas que substituindo os ultimos digitos por 0 existe é no banco local
+// CEP que nao existe  no banco local , mas que substituindo os ultimos digitos por 0 existe é no banco local
 GET http://localhost:8080/cep/93011111 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
 

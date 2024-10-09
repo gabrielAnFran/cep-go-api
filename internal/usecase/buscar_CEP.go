@@ -27,10 +27,7 @@ func (b *BuscarCEPuseCase) Execute(input *string) (BuscarCepOutputDTO, error) { 
 	// Execute é a função responsável por buscar um CEP.
 	// Se o CEP não for encontrado após adicionar os zeros, a função retorna um erro indicando que o CEP não foi encontrado.
 	// Caso contrário, retorna os detalhes do endereço correspondente ao CEP encontrado.
-	var cep string
-	if input != nil {
-		cep = *input
-	}
+	cep := *input
 
 	// Loop para adicionar zeros à direita do CEP.
 	for i := 1; i < 8; i++ {
