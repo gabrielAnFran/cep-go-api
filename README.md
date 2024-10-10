@@ -67,6 +67,28 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 
 ---
 
+## Lógica da API de Busca de CEP
+
+A API de busca de CEP implementa uma lógica flexível para encontrar informações de endereço com base em um CEP fornecido. O principal componente desta lógica está no método `Execute` da estrutura `BuscarCEPuseCase`. Aqui estão os pontos principais:
+
+1. **Entrada flexível**: a API aceita um CEP como entrada, que pode estar incompleto ou parcialmente preenchido, desde que contenha o numero de digitos correto referente a um CEP.
+
+2. **Busca iterativa**: o sistema realiza até 8 tentativas de busca, adicionando zeros à direita do CEP em cada iteração se a busca anterior falhar.
+
+3. **Manipulação de erros**: 
+   - Se o repositório retornar um erro "CEP não encontrado", o sistema adiciona um zero à direita e tenta novamente.
+   - Se ocorrer qualquer outro tipo de erro, a execução é interrompida e o erro é retornado.
+
+4. **Resultado da busca**: 
+   - Se um CEP válido for encontrado, a função retorna um `BuscarCepOutputDTO` contendo as informações do endereço (rua, bairro, cidade e estado).
+   - Se após todas as tentativas o CEP não for encontrado, a função retorna um erro indicando que o CEP não foi localizado.
+
+5. **Abstração do repositório**: A função utiliza uma interface `CEPRepositoryInterface` para realizar a busca, permitindo flexibilidade na implementação do repositório de dados.
+
+Esta abordagem permite que a API seja mais tolerante, aumentando a chance de encontrar um endereço correspondente mesmo quando o usuário não fornece um CEP completo ou preciso.
+
+---
+
 ## Licença
 
 Este projeto é distribuído sob a licença MIT License, que é uma licença de código aberto. Isso significa que qualquer pessoa pode livremente usar, modificar e distribuir o código-fonte, desde que as condições da licença MIT License sejam respeitadas. Para mais detalhes sobre o que é permitido ou não sob esta licença, visite [MIT License](https://opensource.org/license/mit).
