@@ -49,19 +49,21 @@ Essa arquitetura torna os ajustes ou novas implementações menos sofridas, onde
 
 ### Pré-requisitos
 
-- Go
-- [Swaggo](https://github.com/swaggo/swag?tab=readme-ov-file#getting-started)
+- Docker
+- Docker Compose
 
 ### Instruções
 
-> **Importante**: o arquivo .env.example mostra como deve ser o .env do projeto, que é necessário para rodar a app. Um exemplo é a variável HTTP_PORT.
-
+> **Importante**: O arquivo `.env.example` mostra como deve ser o `.env` do projeto, que é necessário para rodar a aplicação. Certifique-se de criar um arquivo `.env` baseado neste exemplo antes de iniciar.
 
 1. Clone o repositório
-2. `go mod tidy`
-3. Execute o comando `make run`
+2. Copie o arquivo `.env.example` para `.env` e ajuste as variáveis conforme necessário
+3. Execute o comando:
+   ```
+   docker-compose up
+   ```
 
-> **Nota**: `make run` installa o swaggo, roda `swaggo init` para gerar as docs e `go run main.go` para inicializar o projeto. Para rodar os testes, `make test`. Uma GitHub action também roda os testes quando um PR é submetido para a branch **main**.
+> **Nota**: Este comando irá construir a imagem Docker do projeto, instalar todas as dependências (incluindo Swaggo), gerar a documentação Swagger e iniciar a aplicação. Os testes podem ser executados dentro do container Docker. Uma GitHub Action também roda os testes automaticamente quando um PR é submetido para a branch **main**.
 
 ---
 
