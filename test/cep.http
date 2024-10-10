@@ -3,15 +3,14 @@ GET http://localhost:8080/cep/01001000 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 
-
-//Rota nao encontrada
-GET http://localhost:8080/ceppp/01001000 HTTP/1.1
+// Url que pega na busca externa
+GET http://localhost:8080/cep/95360000 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 
 
-// CEP que nao existe no banco local
-GET http://localhost:8080/cep/99150000 HTTP/1.1
+//Rota nao encontrada
+GET http://localhost:8080/ceppp/01001000 HTTP/1.1
 Authorization: Bearer {{token}}
 
 ### 
