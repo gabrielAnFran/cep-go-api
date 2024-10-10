@@ -94,7 +94,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.TokenLoginRequest"
+                            "$ref": "#/definitions/models.TokenLoginResponse"
                         }
                     },
                     "400": {
@@ -178,6 +178,14 @@ const docTemplate = `{
                 "senha": {
                     "type": "string",
                     "example": "qualquerumamenosabre123"
+                }
+            }
+        },
+        "models.TokenLoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
                 }
             }
         },
