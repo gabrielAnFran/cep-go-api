@@ -47,7 +47,7 @@ func main() {
 	router.Use(sentrygin.New(sentrygin.Options{}))
 	router.Use(cors.Default())
 
-	// Adicione este middleware personalizado para lidar com rotas não encontradas
+	// Middleware personalizado para lidar com rotas não encontradas
 	router.NoRoute(middlewares.HandleNotFound)
 
 	// Inicializa as rotas da aplicação
