@@ -4,6 +4,7 @@ import (
 	"cep-gin-clean-arch/mocks"
 	"cep-gin-clean-arch/models"
 	"encoding/json"
+	"errors"
 	"net/http/httptest"
 	"testing"
 
@@ -13,6 +14,7 @@ import (
 
 func TestBuscarCEPSucesso(t *testing.T) {
 	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
@@ -20,40 +22,9 @@ func TestBuscarCEPSucesso(t *testing.T) {
 
 	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Marau", Bairro: "Frei Adelar", Rua: "Festivo"}
 	CEPRepositoryInterface.On("Buscar", "99150000").Return(expectedCEP, nil)
+	mockService.On("BuscarCEP", "99150000").Return(&expectedCEP, nil)
 
-	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
-
-	webCEPHandler.BuscarCEP(c)
-
-	responseBody := models.CEPResponse{}
-
-	err := json.NewDecoder(response.Body).Decode(&responseBody)
-	assert.Equal(t, nil, err)
-
-	responseCEP := models.CEPResponse{}
-	responseCEP.Estado = expectedCEP.Estado
-	responseCEP.Cidade = expectedCEP.Cidade
-	responseCEP.Bairro = expectedCEP.Bairro
-	responseCEP.Rua = expectedCEP.Rua
-
-	assert.Equal(t, 200, response.Code)
-	assert.Equal(t, responseCEP, responseBody)
-
-}
-
-func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
-	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
-
-	response := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(response)
-
-	// CEP que existe no banco
-	// {"CEP": "95010000", "Estado": "RS", "Cidade": "Caxias do Sul", "Bairro": "Centro", "Rua": "Rua Sinimbu"},
-	c.Params = gin.Params{{Key: "cep", Value: "95010111"}}
-	expectedCEP := models.CEPResponse{Estado: "RS", Cidade: "Caxias do Sul", Bairro: "Centro", Rua: "Rua Sinimbu"}
-	CEPRepositoryInterface.On("Buscar", "95010111").Return(expectedCEP, nil)
-
-	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface, BuscaCepExterno: mockService}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -62,27 +33,22 @@ func TestBuscarCEPSucessoComCEPQueNaoExisteNoBanco(t *testing.T) {
 	err := json.NewDecoder(response.Body).Decode(&responseBody)
 	assert.Equal(t, nil, err)
 
-	expectedResponseCEP := models.CEPResponse{}
-	expectedResponseCEP.Estado = expectedCEP.Estado
-	expectedResponseCEP.Cidade = expectedCEP.Cidade
-	expectedResponseCEP.Bairro = expectedCEP.Bairro
-	expectedResponseCEP.Rua = expectedCEP.Rua
-
 	assert.Equal(t, 200, response.Code)
-	assert.Equal(t, expectedResponseCEP, responseBody)
-
+	assert.Equal(t, expectedCEP, responseBody)
 }
 
 func TestBuscarCEPInvalido(t *testing.T) {
 	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 	c.Params = gin.Params{{Key: "cep", Value: "00000000"}}
 
-	CEPRepositoryInterface.On("Buscar", "00000000").Return(models.CEPErrorResponse{Error: "CEP inválido"}, nil)
+	CEPRepositoryInterface.On("Buscar", "00000000").Return(models.CEPResponse{}, errors.New("CEP not found"))
+	mockService.On("BuscarCEP", "00000000").Return(nil, errors.New("CEP inválido"))
 
-	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface, BuscaCepExterno: mockService}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -97,14 +63,16 @@ func TestBuscarCEPInvalido(t *testing.T) {
 
 func TestBuscarCEPNaoNumerico(t *testing.T) {
 	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
 
 	response := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(response)
 	c.Params = gin.Params{{Key: "cep", Value: "000000qq"}}
 
-	CEPRepositoryInterface.On("Buscar", "000000qq").Return(models.CEPErrorResponse{Error: "CEP deve conter apenas dígitos numéricos"}, nil)
+	CEPRepositoryInterface.On("Buscar", "000000qq").Return(models.CEPResponse{}, errors.New("CEP deve conter apenas dígitos numéricos"))
+	mockService.On("BuscarCEP", "000000qq").Return(nil, errors.New("CEP deve conter apenas dígitos numéricos"))
 
-	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface}
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface, BuscaCepExterno: mockService}
 
 	webCEPHandler.BuscarCEP(c)
 
@@ -117,12 +85,27 @@ func TestBuscarCEPNaoNumerico(t *testing.T) {
 	assert.Equal(t, "CEP deve conter apenas dígitos numéricos", responseBody.Error)
 }
 
-func TestNewBuscarCEPHandler(t *testing.T) {
-	mockRepository := new(mocks.CEPRepositoryInterface)
+func TestBuscarCEPInvalidFormat(t *testing.T) {
+	// Setup mocks
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
 
-	handler := NewBuscarCEPHandler(mockRepository)
+	// Create a response recorder
+	response := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(response)
 
-	if handler.CEPRepository != mockRepository {
-		t.Errorf("Expected CEPRepository to be set to the mock repository")
-	}
+	c.Params = gin.Params{{Key: "cep", Value: "1234-567"}}
+
+	webCEPHandler := CEPWebHandler{CEPRepository: CEPRepositoryInterface, BuscaCepExterno: mockService}
+
+	// Call the handler
+	webCEPHandler.BuscarCEP(c)
+
+	// Check response
+	responseBody := models.CEPErrorResponse{}
+	err := json.NewDecoder(response.Body).Decode(&responseBody)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, 400, response.Code)
+	assert.Equal(t, "CEP deve conter apenas dígitos numéricos", responseBody.Error)
 }

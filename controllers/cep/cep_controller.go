@@ -11,12 +11,14 @@ import (
 )
 
 type CEPWebHandler struct {
-	CEPRepository entity.CEPRepositoryInterface
+	CEPRepository   entity.CEPRepositoryInterface
+	BuscaCepExterno entity.CEPServiceInterface
 }
 
-func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface) *CEPWebHandler {
+func NewBuscarCEPHandler(buscarCEPRepository entity.CEPRepositoryInterface, buscaCepExterno entity.CEPServiceInterface) *CEPWebHandler {
 	return &CEPWebHandler{
-		CEPRepository: buscarCEPRepository,
+		CEPRepository:   buscarCEPRepository,
+		BuscaCepExterno: buscaCepExterno,
 	}
 }
 
@@ -47,7 +49,7 @@ func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 		return
 	}
 
-	cepBuscar := usecase.NewBuscarCEPUseCase(h.CEPRepository)
+	cepBuscar := usecase.NewBuscarCEPUseCase(h.CEPRepository, h.BuscaCepExterno)
 	res, err := cepBuscar.Execute(&cepParam)
 	if err != nil {
 		fmt.Println(err.Error())
