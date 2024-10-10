@@ -33,7 +33,7 @@ const (
 // @Router       /gerar-token [post]
 // @Failure      500  {object}  models.TokenErrorResponse
 // @Failure      400  {object}  models.TokenErrorResponse
-// @Success      200 {object}   models.TokenLoginRequest
+// @Success      200 {object}   models.TokenLoginResponse
 func (h *GerarTokenHandler) GerarTokenJWT(c *gin.Context) {
 
 	var req models.TokenLoginRequest

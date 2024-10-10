@@ -29,6 +29,11 @@ definitions:
         example: qualquerumamenosabre123
         type: string
     type: object
+  models.TokenLoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
   usecase.BuscarCepOutputDTO:
     properties:
       bairro:
@@ -103,7 +108,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.TokenLoginRequest'
+            $ref: '#/definitions/models.TokenLoginResponse'
         "400":
           description: Bad Request
           schema:
