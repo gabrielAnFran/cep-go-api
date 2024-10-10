@@ -9,6 +9,7 @@ import (
 	"cep-gin-clean-arch/internal/infra/database"
 	"cep-gin-clean-arch/internal/usecase"
 	middlewares "cep-gin-clean-arch/middleware"
+	"cep-gin-clean-arch/services"
 	"fmt"
 	"os"
 
@@ -66,7 +67,9 @@ func rotas(router *gin.Engine) {
 	{
 		// Inicializa o repositório e o handler do CEP
 		repository := entity.CEPRepositoryInterface(database.NewCEPRepository())
-		webCEPHandler := cep_controller.CEPWebHandler{CEPRepository: repository}
+		buscaCepExterno := entity.CEPServiceInterface(services.NewBuscaCepExternoService())
+
+		webCEPHandler := cep_controller.CEPWebHandler{CEPRepository: repository, BuscaCepExterno: buscaCepExterno}
 		api.GET("/cep/:cep", webCEPHandler.BuscarCEP)
 		api.GET("/health-check", healthcheck_controller.HealthCheck())
 	}

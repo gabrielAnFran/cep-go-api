@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"cep-gin-clean-arch/mocks"
 	"cep-gin-clean-arch/models"
 	"testing"
 
@@ -20,13 +21,15 @@ func (m *MockCEPRepository) Buscar(cep string) (models.CEPResponse, error) {
 
 func TestNewBuscarCEPUseCase(t *testing.T) {
 	mockRepo := new(MockCEPRepository)
-	useCase := NewBuscarCEPUseCase(mockRepo)
+	mockService := new(mocks.MockCEPService)
+	useCase := NewBuscarCEPUseCase(mockRepo, mockService)
 	assert.NotNil(t, useCase)
 }
 
 func TestExecute(t *testing.T) {
 	mockRepo := new(MockCEPRepository)
-	useCase := NewBuscarCEPUseCase(mockRepo)
+	mockService := new(mocks.MockCEPService)
+	useCase := NewBuscarCEPUseCase(mockRepo, mockService)
 
 	mockRepo.
 		On("Buscar", "11111111").Return(models.CEPResponse{
@@ -35,7 +38,7 @@ func TestExecute(t *testing.T) {
 		On("Buscar", "00000000").Return(models.CEPResponse{}, nil)
 
 	cep := "11111111"
-	useCaseCep := BuscarCEPuseCase{useCase.CEPRepository}
+	useCaseCep := BuscarCEPuseCase{useCase.CEPRepository, useCase.BuscaCepExterno}
 	res, err := useCaseCep.CEPRepository.Buscar(cep)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, models.CEPResponse{
