@@ -11,7 +11,6 @@ import (
 )
 
 func TestHandleNotFound(t *testing.T) {
-	// Set Gin to Test Mode
 	gin.SetMode(gin.TestMode)
 
 	r := gin.New()
