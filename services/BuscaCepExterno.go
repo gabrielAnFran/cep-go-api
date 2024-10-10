@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/davecgh/go-spew/spew"
 )
@@ -20,7 +21,8 @@ func NewBuscaCepExternoService() *BuscaCepExternoService {
 
 func (s *BuscaCepExternoService) BuscaCEP(cep string) (models.CEPResponse, error) {
 
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	url := "http://viacep.com.br/ws/" + cep + "/json/"
 
