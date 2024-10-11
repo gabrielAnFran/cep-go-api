@@ -103,6 +103,18 @@ Exemplos de uso podem ser encontrados no projeto em `/test/postman`, onde se enc
 
 ---
 
+## Sentry 
+
+### Issues 
+
+![issues](issues.png)
+
+### Performance
+
+![performance](performance.png)
+
+---
+
 ## HTTP
 
 1. Ao digitar uma URL no browser, primeiramente, o endereço deve ser transformado em um endereço de IP. Isso acontece atravas de DNS Resolution.
