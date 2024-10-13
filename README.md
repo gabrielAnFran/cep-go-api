@@ -76,14 +76,17 @@ A API de busca de CEP implementa uma lógica flexível para encontrar informaç�
 2. **Busca iterativa**: o sistema realiza até 8 tentativas de busca, adicionando zeros à direita do CEP em cada iteração se a busca anterior falhar.
 
 3. **Manipulação de erros**: 
-   - Se o repositório retornar um erro "CEP não encontrado", o sistema adiciona um zero à direita e tenta novamente.
-   - Se ocorrer qualquer outro tipo de erro, a execução é interrompida e o erro é retornado.
+   - Se o repositório interno retornar um erro "CEP não encontrado", o sistema tenta buscar o CEP em uma API externa.
+   - Se a busca externa também falhar ou ocorrer qualquer outro tipo de erro, a execução é interrompida e o erro é retornado.
+
 
 4. **Resultado da busca**: 
    - Se um CEP válido for encontrado, a função retorna um `BuscarCepOutputDTO` contendo as informações do endereço (rua, bairro, cidade e estado).
    - Se após todas as tentativas o CEP não for encontrado, a função retorna um erro indicando que o CEP não foi localizado.
 
-5. **Abstração do repositório**: A função utiliza uma interface `CEPRepositoryInterface` para realizar a busca, permitindo flexibilidade na implementação do repositório de dados.
+5. **Abstração do repositório**: a função utiliza uma interface `CEPRepositoryInterface` para realizar a busca, permitindo flexibilidade na implementação do repositório de dados.
+
+6. **Fallback para API externa**: se o CEP não for encontrado no repositório interno, a API tenta buscar o CEP em um serviço externo, aumentando a chance de sucesso na busca por endereços.
 
 Esta abordagem permite que a API seja mais tolerante, aumentando a chance de encontrar um endereço correspondente mesmo quando o usuário não fornece um CEP completo ou preciso.
 
