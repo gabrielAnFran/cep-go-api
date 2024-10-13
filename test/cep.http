@@ -2,17 +2,50 @@
 GET http://localhost:8080/cep/01001000 HTTP/1.1
 Authorization: Bearer {{token}}
 
+#HTTP/1.1 200 OK
+#Content-Type: application/json; charset=utf-8
+#Date: Sun, 13 Oct 2024 19:24:11 GMT
+#Content-Length: 74
+#
+#{
+#  "rua": "Praça da Sé",
+#  "bairro": "Sé",
+#  "cidade": "São Paulo",
+#  "estado": "SP"
+#}
+
 ### 
 
-//Rota nao encontrada
+# Rota nao encontrada
 GET http://localhost:8080/ceppp/01001000 HTTP/1.1
 Authorization: Bearer {{token}}
 
+#HTTP/1.1 404 Not Found
+#Content-Type: application/json; charset=utf-8
+#Date: Sun, 13 Oct 2024 19:24:33 GMT
+#Content-Length: 47
+#
+#{
+#  "message": "Rota não encontrada",
+#  "status": 404
+#}
+
 ### 
 
-// CEP que nao existe no banco local
 GET http://localhost:8080/cep/99150000 HTTP/1.1
 Authorization: Bearer {{token}}
+
+#HTTP/1.1 200 OK
+#Content-Type: application/json; charset=utf-8
+#Date: Sun, 13 Oct 2024 19:24:49 GMT
+#Content-Length: 53
+#
+#{
+#  "rua": "",
+#  "bairro": "",
+#  "cidade": "Marau",
+#  "estado": "RS"
+#}
 
 ### 
 
@@ -20,20 +53,64 @@ Authorization: Bearer {{token}}
 GET http://localhost:8080/cep/00000000 HTTP/1.1
 Authorization: Bearer {{token}}
 
+# HTTP/1.1 400 Bad Request
+# Content-Type: application/json; charset=utf-8
+# Date: Sun, 13 Oct 2024 19:25:26 GMT
+# Content-Length: 42
+
+# {
+#   "error": "CEP inválido",
+#   "cep": "00000000"
+# }
+
 ### 
 
 // CEP invalido com caracteres não numericos
 GET http://localhost:8080/cep/000q000 HTTP/1.1
 Authorization: Bearer {{token}}
 
+# HTTP/1.1 400 Bad Request
+# Content-Type: application/json; charset=utf-8
+# Date: Sun, 13 Oct 2024 19:26:17 GMT
+# Content-Length: 70
+
+# {
+#   "error": "CEP deve conter apenas dígitos numéricos",
+#   "cep": "000q000"
+# }
+
 ### 
 
-// CEP que nao existe  no banco local , mas que substituindo os ultimos digitos por 0 existe é no banco local
+// CEP que nao existe  no banco/serviço , mas que substituindo os ultimos digitos por 0 existe é no banco local
 GET http://localhost:8080/cep/93011111 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+
+# HTTP/1.1 200 OK
+# Content-Type: application/json; charset=utf-8
+# Date: Sun, 13 Oct 2024 19:26:37 GMT
+# Content-Length: 85
+
+# {
+#   "rua": "Rua Independência",
+#   "bairro": "Centro",
+#   "cidade": "São Leopoldo",
+#   "estado": "RS"
+# }
 
 ###
 
 // CEP original da request acima
 GET http://localhost:8080/cep/93011000 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ4NDIxNjEsImlhdCI6MTcxNDgzODU2MSwianRpIjoiNzcwMDRFNDgtN0RCNi1CREM4LUE0RDUtNkI5NEQ0NDg1MzA4IiwibmJmIjoxNzE0ODM4NTYxLCJzdWIiOjF9.vCs3uxP7GUE8kejydU1c5XDj8abQjUeH0cqrCe6Vu8o
+
+# HTTP/1.1 200 OK
+# Content-Type: application/json; charset=utf-8
+# Date: Sun, 13 Oct 2024 19:27:32 GMT
+# Content-Length: 85
+
+# {
+#   "rua": "Rua Independência",
+#   "bairro": "Centro",
+#   "cidade": "São Leopoldo",
+#   "estado": "RS"
+# }

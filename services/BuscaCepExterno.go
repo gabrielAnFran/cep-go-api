@@ -7,8 +7,6 @@ import (
 	"io"
 	"net/http"
 	"time"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // BuscaCepExternoService handles external CEP lookup
@@ -41,9 +39,6 @@ func (s *BuscaCepExternoService) BuscaCEP(cep string) (models.CEPResponse, error
 	if err != nil {
 		return models.CEPResponse{}, err
 	}
-	spew.Dump(err)
-
-	spew.Dump(string(body))
 
 	var cepResponse models.CEPResponseExterno
 	err = json.Unmarshal(body, &cepResponse)
