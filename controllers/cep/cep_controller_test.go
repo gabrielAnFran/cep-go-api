@@ -5,6 +5,7 @@ import (
 	"cep-gin-clean-arch/models"
 	"encoding/json"
 	"errors"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 
@@ -108,4 +109,53 @@ func TestBuscarCEPInvalidFormat(t *testing.T) {
 
 	assert.Equal(t, 400, response.Code)
 	assert.Equal(t, "CEP deve conter apenas dígitos numéricos", responseBody.Error)
+}
+
+func TestCEPWebHandlerInitialization(t *testing.T) {
+	buscarCEPRepository := new(mocks.CEPRepositoryInterface)
+	buscaCepExterno := new(mocks.MockCEPService)
+
+	handler := &CEPWebHandler{
+		CEPRepository:   buscarCEPRepository,
+		BuscaCepExterno: buscaCepExterno,
+	}
+
+	assert.Equal(t, buscarCEPRepository, handler.CEPRepository)
+	assert.Equal(t, buscaCepExterno, handler.BuscaCepExterno)
+}
+
+func TestBuscarCEP_ErrorHandling(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	CEPRepositoryInterface := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
+
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	c.Params = gin.Params{{Key: "cep", Value: "00000000"}}
+
+	CEPRepositoryInterface.On("Buscar", "00000000").Return(models.CEPResponse{}, errors.New("CEP inválido"))
+	mockService.On("BuscarCEP", "00000000").Return(nil, errors.New("CEP inválido"))
+
+	handler := CEPWebHandler{CEPRepository: CEPRepositoryInterface, BuscaCepExterno: mockService}
+
+	handler.BuscarCEP(c)
+
+	responseBody := models.CEPErrorResponse{}
+	err := json.NewDecoder(w.Body).Decode(&responseBody)
+	assert.Equal(t, nil, err)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.Equal(t, "CEP inválido", responseBody.Error)
+}
+
+func TestNewBuscarCEPHandler(t *testing.T) {
+	buscarCEPRepository := new(mocks.CEPRepositoryInterface)
+	mockService := new(mocks.MockCEPService)
+
+	handler := NewBuscarCEPHandler(buscarCEPRepository, mockService)
+
+	assert.Equal(t, buscarCEPRepository, handler.CEPRepository)
+	assert.Equal(t, mockService, handler.BuscaCepExterno)
 }

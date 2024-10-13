@@ -5,7 +5,6 @@ import (
 	"cep-gin-clean-arch/internal/usecase"
 	"cep-gin-clean-arch/models"
 	"cep-gin-clean-arch/utils"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -52,7 +51,6 @@ func (h *CEPWebHandler) BuscarCEP(c *gin.Context) {
 	cepBuscar := usecase.NewBuscarCEPUseCase(h.CEPRepository, h.BuscaCepExterno)
 	res, err := cepBuscar.Execute(&cepParam)
 	if err != nil {
-		fmt.Println(err.Error())
 		utils.GravarErroNoSentry(err, c)
 		errorResponse := models.CEPErrorResponse{
 			Error:        err.Error(),
